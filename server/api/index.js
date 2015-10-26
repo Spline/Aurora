@@ -8,7 +8,7 @@ const ROUTE_USER_ID = /\/user\/([^\/]+)\/?/;
 export default async function(route, params = { method: 'GET' }) {
   let queryParams;
 
-  switch (params.method) {
+  switch (params.method.toUpperCase()) {
     case 'GET':
 
       /* Route: /user/<id> */
@@ -25,4 +25,7 @@ export default async function(route, params = { method: 'GET' }) {
 
       break;
   }
+
+  /* No matching route found */
+  return null;
 };
