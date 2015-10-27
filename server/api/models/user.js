@@ -7,7 +7,7 @@ export default class User {
 
   toJSON() {
     return {
-      id: this.id
+      id: parseInt(this.id)
     };
   }
 }
