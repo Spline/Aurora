@@ -10,5 +10,11 @@ If you have done so, feel free to [fork](https://help.github.com/articles/fork-a
 
 To keep things consistent, make sure that all your code conforms with the following style guides:
 
-| JavaScript | [AirBnB JavaScript Styleguide](https://github.com/airbnb/javascript)                |
+| Language   | Style Guide                                                                         |
+|------------|-------------------------------------------------------------------------------------|
+| JavaScript | [AirBnB JavaScript Style Guide](https://github.com/airbnb/javascript)               |
 | HTML / CSS | [Google HTML/CSS Style Guide](https://google.github.io/styleguide/htmlcssguide.xml) |
+
+## Pull requests
+
+We are happy for any contribution as long as you strictly meet the rules! Also, if your description / commit messages are vague the pull request might get rejected.
