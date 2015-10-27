@@ -23,6 +23,11 @@ export default async function(route, params = { method: 'GET' }) {
         return (new Content({ id: queryParams[1] })).toJSON();
       }
 
+      /* Route: /content/:id */
+      if (queryParams = route.match(ROUTE_CONTENT_ID)) {
+        return (new Content({id: queryParams[1]})).toJSON();
+      }
+
       break;
 
     case 'POST':
