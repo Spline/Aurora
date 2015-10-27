@@ -1,7 +1,7 @@
 "use strict";
 
-import User    from './models/user';
-import Content from './models/content';
+import User    from './models/User';
+import Content from './models/Content';
 
 const ROUTE_USER       = /\/user/;
 const ROUTE_USER_ID    = /\/user\/([^\/]+)\/?/;
