@@ -8,7 +8,7 @@ const ROUTE_USER_ID    = /\/user\/([^\/]+)\/?/;
 const ROUTE_CONTENT    = /\/content/;
 const ROUTE_CONTENT_ID = /\/content\/([^\/]+)\/?/;
 
-export default async function(route, params = {method: 'GET'}) {
+export default async function(route, params = { method: 'GET' }) {
   let queryParams;
 
   switch (params.method.toUpperCase()) {
