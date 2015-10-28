@@ -1,7 +1,8 @@
 "use strict";
 
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 
 export default combineReducers({
-  activeRoute:  require('./activeRoute')
+  activeRoute: require('./activeRoute'),
+  user:        require('./user')
 });

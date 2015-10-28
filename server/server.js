@@ -1,15 +1,17 @@
 "use strict";
 
-import api            from './api'; // ToDo: Actually use api.
-import {createStore}  from 'redux';
-import config         from '../config';
-import express        from 'express';
-import http           from 'http';
-import nunjucks       from 'nunjucks';
-import riot           from 'riot';
-import reducers       from '../shared/reducers';
-import routes         from '../shared/routes';
-import riotApp        from '../shared/components/app';
+import api             from './api'; // ToDo: Actually use api.
+import { createStore } from 'redux';
+import config          from '../config';
+import express         from 'express';
+import http            from 'http';
+import nunjucks        from 'nunjucks';
+import riot            from 'riot';
+import reducers        from '../shared/reducers';
+import routes          from '../shared/routes';
+
+import backend  from '../shared/components/backend.tag';
+import frontend from '../shared/components/frontend.tag';
 
 export default function() {
   var app = express();
@@ -25,7 +27,8 @@ export default function() {
   app.use((req, res, next) => {
     // Default state
     req.state = {
-      activeRoute:  routes.home
+      activeRoute: routes.home,
+      user: null
     };
     next();
   });
@@ -39,11 +42,11 @@ export default function() {
 
   app.use((req, res) => {
     var store = createStore(reducers, req.state);
-    var html = riot.render(riotApp, {isClient: false, routes: routes, store: store, state: store.getState()});
+    var html = riot.render((!req.state.user ? frontend : backend), {isClient: false, routes: routes, store: store, state: store.getState()});
 
     res.render('base', {
       html: html,
-      state: req.state
+      initialState: req.state
     });
   });
 

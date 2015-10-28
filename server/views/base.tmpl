@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{state.title}}</title>
+    <title>{{ initialState.title }}</title>
   </head>
   <body>
-    {{html}}
+    <app>{{ html }}</app>
+
+    {% if not initialState.user %}
+      <script src="/js/frontend.js"></script>
+    {% else %}
+      <script src="/js/backend.js"></script>
+    {% endif %}
+
     <script>
-      window.state = {{state | dump}};
+      window.initialState = {{ (initialState if initialState else {}) | dump }};
+      window.routes = {{ (routes if routes else {}) | dump }};
     </script>
-    <script src="/js/app.js"></script>
   </body>
 </html>

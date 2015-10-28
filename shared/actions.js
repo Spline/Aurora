@@ -1,7 +1,9 @@
 "use strict";
 
 var actionsSet = new Set([
-  'ROUTE_CHANGE'
+  'ROUTE_CHANGE',
+  'USER_LOGIN',
+  'USER_LOGOUT'
 ]);
 
 var actionsObj = {};

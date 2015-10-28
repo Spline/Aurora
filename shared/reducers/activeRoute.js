@@ -1,9 +1,8 @@
 "use strict";
 
-import routes         from '../routes';
-import {ROUTE_CHANGE} from '../actions';
+import { ROUTE_CHANGE } from '../actions';
 
-function activeRoute(state = routes.home, action) {
+function activeRoute(state = {}, action) {
   switch (action.type) {
     case ROUTE_CHANGE:
       return action.activeRoute;
