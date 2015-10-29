@@ -1,5 +1,7 @@
 "use strict";
 
+import InvalidCredentialsException from "../exceptions/InvalidCredentials";
+
 export default class User {
   constructor(params = {}) {
     this.id = params.id;
@@ -7,6 +9,8 @@ export default class User {
 
   static async login(payload) {
     let id;
+    
+    //throw new InvalidCredentialsException();
     return new User({ id });
   }
 
