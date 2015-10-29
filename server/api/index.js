@@ -1,11 +1,12 @@
 "use strict";
 
-import User    from './models/User';
+import User from './models/User';
 import Content from './models/Content';
 
-const ROUTE_USER       = /\/user/;
-const ROUTE_USER_ID    = /\/user\/([^\/]+)\/?/;
-const ROUTE_CONTENT    = /\/content/;
+const ROUTE_LOGIN = /\/login/;
+const ROUTE_USER = /\/user/;
+const ROUTE_USER_ID = /\/user\/([^\/]+)\/?/;
+const ROUTE_CONTENT = /\/content/;
 const ROUTE_CONTENT_ID = /\/content\/([^\/]+)\/?/;
 
 export default async function(route, params = { method: 'GET' }) {
@@ -26,6 +27,11 @@ export default async function(route, params = { method: 'GET' }) {
       break;
 
     case 'POST':
+      /* Route: /login */
+      if (route.match(ROUTE_LOGIN)) {
+        return (await User.login(params.payload)).toJSON();
+      }
+
       /* Route: /user */
       if (route.match(ROUTE_USER)) {}
 
