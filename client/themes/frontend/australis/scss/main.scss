@@ -1,0 +1,22 @@
+@include 'reset.scss';
+
+@include 'helpers/variables.scss';
+@include 'helpers/functions.scss';
+
+@include 'components/buttons.scss';
+@include 'components/navigation.scss';
+
+* {
+  &::before,
+  &::after {
+    box-sizing: border-box;
+    font-family: 'Open Sans', serif;
+    line-height: 1.5em;
+    color: #222;
+  }
+}
+
+a {
+  outline: none;
+  color: inherit;
+}
