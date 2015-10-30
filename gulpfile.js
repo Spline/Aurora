@@ -15,7 +15,7 @@ gulp.task('bundle-client-files', ['bundle-frontend', 'bundle-backend']);
 gulp.task('bundle-frontend', function() {
   return browserify({
       debug: !production,
-      entries: ['client/frontend.js'],
+      entries: ['core/client/frontend.js'],
       transform: [
         [babelify],
         [riotify, {"type": "es6"}]
@@ -30,7 +30,7 @@ gulp.task('bundle-frontend', function() {
 gulp.task('bundle-backend', function() {
   return browserify({
       debug: !production,
-      entries: ['client/backend.js'],
+      entries: ['core/client/backend.js'],
       transform: [
         [babelify],
         [riotify, {"type": "es6"}]

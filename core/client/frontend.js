@@ -1,10 +1,10 @@
 "use strict";
 
 import { createStore }  from 'redux';
-import reducers         from '../shared/reducers';
 import riot             from 'riot';
 
-import backend from '../shared/components/backend.tag';
+var frontend = require(__ROOT + 'themes/frontend/australis/components/index.tag');
+var reducers = require(__ROOT + 'core/shared/reducers');
 
 riot.mount('app > *', {
   isClient: true,

@@ -1,6 +1,8 @@
 "use strict";
 
-import { ROUTE_CHANGE } from '../actions';
+var ROUTE_CHANGE;
+
+({ ROUTE_CHANGE } = require(__ROOT + 'core/shared/actions'));
 
 function activeRoute(state = {}, action) {
   switch (action.type) {

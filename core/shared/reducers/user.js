@@ -1,6 +1,9 @@
 "use strict";
 
-import { USER_LOGIN, USER_LOGOUT } from '../actions';
+var USER_LOGIN;
+var USER_LOGOUT;
+
+({ USER_LOGIN, USER_LOGOUT } = require(__ROOT + 'core/shared/actions'));
 
 function user(state = null, action) {
   switch (action.type) {

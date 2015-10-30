@@ -1,7 +1,7 @@
 "use strict";
 
-import User     from './models/User';
-import Content  from './models/Content';
+var Content = require(__ROOT + 'core/server/api/models/Content');
+var User    = require(__ROOT + 'core/server/api/models/User');
 
 const ROUTE_LOGIN       = /\/login/;
 const ROUTE_USER        = /\/user/;

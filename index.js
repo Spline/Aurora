@@ -2,4 +2,6 @@
 
 require('babel/register');
 
-require('./server/server.js')();
+global.__ROOT = process.cwd() + '/';
+
+require(__ROOT + 'core/server/server.js')();

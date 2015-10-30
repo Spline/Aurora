@@ -1,22 +1,22 @@
 "use strict";
 
-import api             from './api'; // ToDo: Actually use api.
 import { createStore } from 'redux';
-import config          from '../config';
 import express         from 'express';
 import http            from 'http';
 import nunjucks        from 'nunjucks';
 import riot            from 'riot';
-import reducers        from '../shared/reducers';
-import routes          from '../shared/routes';
 
-import backend  from '../shared/components/backend.tag';
-import frontend from '../shared/components/frontend.tag';
+var api       = require(__ROOT + 'core/server/api'); // ToDo: Actually use api.
+var backend   = require(__ROOT + 'themes/backend/borealis/components/index.tag');
+var config    = require(__ROOT + 'config');
+var frontend  = require(__ROOT + 'themes/frontend/australis/components/index.tag');
+var reducers  = require(__ROOT + 'core/shared/reducers');
+var routes    = require(__ROOT + 'core/shared/routes');
 
 export default function() {
   var app = express();
 
-  nunjucks.configure('server/views', {
+  nunjucks.configure(__ROOT + 'core/server/views', {
     autoescape: false,
     express: app
   });
