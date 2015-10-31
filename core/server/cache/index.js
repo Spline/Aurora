@@ -1,41 +1,47 @@
 "use strict";
 
-/*
-
-let cache = await new Cache("/blog").find();
-result = cache ? cache : buildSite...;
-
-buildSite() {
- let html = render...;
- cache.build(html);
-}
-
-*/
-
-import redis from "redis";
+import redis from 'redis';
 let client = redis.createClient();
 
-let processQuery = async() => {
-  let that = this;
-  new Promise(function(resolve, reject) {
-    client.get(that.cacheKey, function(err, reply) {
+client.on('connect', () => {
+  console.log('Connected to Cache');
+});
+
+client.on('error', (err) => {
+  console.log('cache error: ' + err);
+});
+
+let getCache = async(cacheKey) => {
+  return new Promise((resolve, reject) => {
+    client.get(cacheKey, (err, result) => {
       if (err) reject(err);
-      else resolve(reply);
+      else resolve(result);
+    });
+  });
+}
+
+let setCache = async(cacheKey, value) => {
+  return new Promise((resolve, reject) => {
+    client.set(cacheKey, value, (err, result) => {
+      if (err) reject(err);
+      else resolve(result);
     });
   });
 }
 
 export default class Cache {
-  constructor(uri, params = {}) {
-    this.cacheKey = uri;
+  constructor(uri, params = { object: 'site' }) {
+    this.cacheKey = `${params.object}:${uri}`;
   }
 
-  async find() {
-    let result = await processQuery();
+  async get() {
+    let result = await getCache(this.cacheKey);
     return result;
   }
 
-  async build() {
-    /* Cache optimizer */
+  async set(value) {
+    /* implement cache optimizer... */
+    let result = await setCache(this.cacheKey, value);
+    return result;
   }
 }
