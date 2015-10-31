@@ -10,6 +10,9 @@ const config = {
     user: '',
     pass: '',
     name: ''
+  },
+  cache: {
+    enabled: true
   }
 };
 

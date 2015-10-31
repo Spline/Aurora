@@ -26,5 +26,8 @@
     "gulp": "^3.9.0",
     "riotify": "^0.1.2",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "optionalDependencies": {
+    "redis": "^2.3.0"
   }
 }
