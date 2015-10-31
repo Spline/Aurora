@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.13.3",
+    "mysql": "^2.9.0",
     "nunjucks": "^2.1.0",
     "page": "^1.6.4",
     "redux": "^3.0.2",
