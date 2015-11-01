@@ -21,7 +21,8 @@ export default async function(route, params = { method: 'GET' }) {
 
       /* Route: /content/:id */
       if (queryParams = route.match(ROUTE_CONTENT_ID)) {
-        return (new Content({ id: queryParams[1] })).toJSON();
+        let content = new Content({ id: queryParams[1] });
+        return (await content.fetch()).toJSON();
       }
 
       break;
