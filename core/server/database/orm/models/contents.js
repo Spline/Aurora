@@ -9,6 +9,19 @@ export default function(sequelize) {
       primaryKey: true,
       autoIncrement: true
     },
+    layout: {
+      type: Sequelize.STRING,
+      defaultValue: 'index',
+      allowNull: false
+    },
+    uri: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    title: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     content: {
       type: Sequelize.TEXT
     },
