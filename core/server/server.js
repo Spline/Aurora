@@ -12,14 +12,14 @@ var config    = require(__ROOT + 'config');
 var frontend  = require(__ROOT + 'themes/frontend/australis/components/index.tag');
 var reducers  = require(__ROOT + 'core/shared/reducers');
 var routes    = require(__ROOT + 'core/shared/routes');
+var Database  = require(__ROOT + 'core/server/database');
 
 export default function() {
 
   /* Bootstrap */
   Promise.all([
 
-    /* Database... */
-    /* Cache... */
+    Database.connect()
 
   ]).then(() => {
 

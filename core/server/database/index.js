@@ -7,6 +7,8 @@ async function findOne() {
 }
 */
 
+import DatabaseConnectionException from '../exceptions/database-connection';
+
 let config = require(__ROOT + 'config');
 let mysql = require('mysql');
 let pool = mysql.createPool({
@@ -14,10 +16,6 @@ let pool = mysql.createPool({
   user: config.database.user,
   password: config.database.pass,
   database: config.database.name
-});
-
-pool.getConnection((err, connection) => {
-  console.log('Connected to the database');
 });
 
 let getConnection = async () => {
@@ -40,6 +38,18 @@ let processQuery = async (connection, queryString, queryParams) => {
 }
 
 export default class SQL {
+  static connect() {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((err, connection) => {
+        if(err) {
+          reject(err)
+          throw new DatabaseConnectionException();
+        }
+        else resolve(connection);
+        connection.release();
+      });
+    });
+  }
   async query(queryString, queryParams = {}) {
     let connection = await getConnection();
     let result = await processQuery(connection, queryString, queryParams);

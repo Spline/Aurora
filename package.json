@@ -12,6 +12,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "colors": "^1.1.2",
     "express": "^4.13.3",
     "mysql": "^2.9.0",
     "nunjucks": "^2.1.0",
