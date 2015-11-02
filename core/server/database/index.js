@@ -9,6 +9,8 @@ async function findOne() {
 
 import DatabaseConnectionException from '../exceptions/database-connection';
 
+var ormsync = require(__ROOT + 'core/server/database/orm/sync');
+
 let config = require(__ROOT + 'config');
 let mysql = require('mysql');
 let pool = mysql.createPool({
@@ -18,7 +20,7 @@ let pool = mysql.createPool({
   database: config.database.name
 });
 
-let getConnection = async () => {
+let getConnection = async() => {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) reject(err);
@@ -27,7 +29,7 @@ let getConnection = async () => {
   });
 }
 
-let processQuery = async (connection, queryString, queryParams) => {
+let processQuery = async(connection, queryString, queryParams) => {
   return new Promise((resolve, reject) => {
     connection.query(queryString, queryParams, (err, rows) => {
       connection.release();
@@ -38,14 +40,16 @@ let processQuery = async (connection, queryString, queryParams) => {
 }
 
 export default class SQL {
+  static sync() {
+    return ormsync();
+  }
   static connect() {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
-        if(err) {
+        if (err) {
           reject(err)
           throw new DatabaseConnectionException();
-        }
-        else resolve(connection);
+        } else resolve(connection);
         connection.release();
       });
     });

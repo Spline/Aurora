@@ -1,14 +1,32 @@
 "use strict";
 
-import models from './models';
+import colors from 'colors';
+import { contents, users } from './models';
 
 /* Create tables... */
-let options = { force: true };
+let options = { force: true, logging: false };
 
-models.contents.sync(options).then(function() {
-  models.contents.create({ uri: 'john', title: 'John', content: 'Hancock', author_id: 1 });
-  models.contents.create({ uri: 'michael', title: 'Michael', content: 'Berger', author_id: 1 });
-  models.contents.create({ uri: 'jens', title: 'Jens', content: 'Schmidt', author_id: 1 });
-});
+export default function() {
+  return new Promise((resolve, reject) => {
+    process.stdout.write('Creating database tables... '.cyan);
+    Promise.all([
+      contents.sync(options),
+      users.sync(options)
 
-models.users.sync(options);
+    ]).then(() => {
+      console.log('DONE'.green);
+      process.stdout.write('Creating database contents... '.cyan);
+
+      contents.create({ uri: 'john', title: 'John', content: 'Hancock', author_id: 1 });
+      contents.create({ uri: 'michael', title: 'Michael', content: 'Berger', author_id: 1 });
+      contents.create({ uri: 'jens', title: 'Jens', content: 'Schmidt', author_id: 1 });
+      console.log('DONE'.green);
+
+      resolve();
+
+    }).catch((err) => {
+      reject(err);
+
+    });
+  });
+}
