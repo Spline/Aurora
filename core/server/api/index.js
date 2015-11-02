@@ -5,9 +5,9 @@ var User    = require(__ROOT + 'core/server/api/models/User');
 
 const REGEX_NUMBER = '([0-9]+){1,8}';
 
-const ROUTE_LOGIN      = new RegExp(`/login/`);
+const ROUTE_LOGIN      = new RegExp(`/login`);
 
-const ROUTE_USER       = new RegExp(`/user/`);
+const ROUTE_USER       = new RegExp(`/user`);
 const ROUTE_USER_ID    = new RegExp(`/user/${REGEX_NUMBER}`);
 
 const ROUTE_CONTENT    = new RegExp(`/content`);
@@ -25,7 +25,6 @@ export default async function(route, params = { method: 'GET' }) {
 
       /* Route: /content/:id */
       if (queryParams = route.match(ROUTE_CONTENT_ID)) {
-        console.log(queryParams);
         let content = new Content({ id: queryParams[1] });
         return (await content.fetch()).toJSON();
       }
