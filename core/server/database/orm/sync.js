@@ -17,12 +17,16 @@ export default function() {
       console.log('DONE'.green);
       process.stdout.write('Creating database contents... '.cyan);
 
-      contents.create({ uri: 'john', title: 'John', content: 'Hancock', author_id: 1 });
-      contents.create({ uri: 'michael', title: 'Michael', content: 'Berger', author_id: 1 });
-      contents.create({ uri: 'jens', title: 'Jens', content: 'Schmidt', author_id: 1 });
-      console.log('DONE'.green);
+      Promise.all([
+        contents.create({ uri: 'john', title: 'John', content: 'Hancock', author_id: 1 }),
+        contents.create({ uri: 'michael', title: 'Michael', content: 'Berger', author_id: 1 }),
+        contents.create({ uri: 'jens', title: 'Jens', content: 'Schmidt', author_id: 1 })
 
-      resolve();
+      ]).then(() => {
+        console.log('DONE'.green);
+        resolve();
+
+      });
 
     }).catch((err) => {
       reject(err);

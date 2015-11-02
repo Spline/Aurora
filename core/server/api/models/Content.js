@@ -1,7 +1,6 @@
 "use strict";
 
-import models from '../../database/orm/models';
-let contents = models.contents;
+import { contents } from '../../database/orm/models';
 
 export default class Content {
   constructor(params = {}) {
