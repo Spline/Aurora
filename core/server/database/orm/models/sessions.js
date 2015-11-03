@@ -3,30 +3,17 @@
 import Sequelize from 'sequelize';
 
 export default function(sequelize) {
-  return sequelize.define('users', {
-    id: {
+  return sequelize.define('sessions', {
+    userId: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       allowNull: false,
-      autoIncrement: true
+      field: 'user_id'
     },
-    firstName: {
+    sessionString: {
       type: Sequelize.STRING,
       allowNull: false,
-      field: 'first_name'
-    },
-    name: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    email: {
-      type: Sequelize.STRING,
-      unique: true,
-      allowNull: false
-    },
-    hash: {
-      type: Sequelize.STRING,
-      allowNull: false
+      field: 'session_string'
     },
     createdAt: {
       type: Sequelize.DATE,
@@ -41,10 +28,6 @@ export default function(sequelize) {
       field: 'updated_at'
     }
   }, {
-    indexes: [{
-      name: 'email',
-      unique: true,
-      fields: ['email']
-    }]
+    engine: 'MEMORY'
   });
 }

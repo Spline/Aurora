@@ -7,6 +7,7 @@ export default function(sequelize) {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
+      allowNull: false,
       autoIncrement: true
     },
     layout: {

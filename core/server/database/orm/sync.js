@@ -1,7 +1,7 @@
 "use strict";
 
 import colors from 'colors';
-import { contents, users } from './models';
+import { contents, users, sessions } from './models';
 
 /* Create tables... */
 let options = { force: true, logging: false };
@@ -11,7 +11,8 @@ export default function() {
     process.stdout.write('Creating database tables... '.cyan);
     Promise.all([
       contents.sync(options),
-      users.sync(options)
+      users.sync(options),
+      sessions.sync(options)
 
     ]).then(() => {
       console.log('DONE'.green);
