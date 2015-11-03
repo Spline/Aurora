@@ -24,8 +24,8 @@ export default function() {
         contents.create({ uri: 'jens', title: 'Jens', content: 'Schmidt', author_id: 1 }),
 
         /* Add some user data to the database. */
-        users.create({ firstName: 'Eric', name: 'Range', email: 'eric.range@live.de', hash: '123' }),
-        users.create({ firstName: 'Pablo', name: 'Sichert', email: 'mail@pablosichert.de', hash: '123' }),
+        users.create({ firstName: 'Eric', name: 'Range', email: 'eric.range@live.de', hash: '$2a$08$I9SGIZrgTJy.MW4ZrooV9eWLxdomHzkDW3OanGwJwpxQKEofgxpTi' }),
+        users.create({ firstName: 'Pablo', name: 'Sichert', email: 'mail@pablosichert.de', hash: '$2a$08$I9SGIZrgTJy.MW4ZrooV9eWLxdomHzkDW3OanGwJwpxQKEofgxpTi' }),
 
       ]).then(() => {
         console.log('DONE'.green);

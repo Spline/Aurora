@@ -3,7 +3,7 @@
 var Content = require(__ROOT + 'core/server/api/models/Content');
 var User    = require(__ROOT + 'core/server/api/models/User');
 
-const REGEX_NUMBER = '([0-9]+){1,8}';
+const REGEX_NUMBER = '([0-9]{1,8})';
 
 const ROUTE_LOGIN      = new RegExp(`/login`);
 
