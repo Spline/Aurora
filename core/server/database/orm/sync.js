@@ -18,9 +18,14 @@ export default function() {
       process.stdout.write('Creating database contents... '.cyan);
 
       Promise.all([
+        /* Add some content data to the database. */
         contents.create({ uri: 'john', title: 'John', content: 'Hancock', author_id: 1 }),
         contents.create({ uri: 'michael', title: 'Michael', content: 'Berger', author_id: 1 }),
-        contents.create({ uri: 'jens', title: 'Jens', content: 'Schmidt', author_id: 1 })
+        contents.create({ uri: 'jens', title: 'Jens', content: 'Schmidt', author_id: 1 }),
+
+        /* Add some user data to the database. */
+        users.create({ firstName: 'Eric', name: 'Range', email: 'eric.range@live.de', hash: '123' }),
+        users.create({ firstName: 'Pablo', name: 'Sichert', email: 'mail@pablosichert.de', hash: '123' }),
 
       ]).then(() => {
         console.log('DONE'.green);
