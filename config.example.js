@@ -6,10 +6,11 @@ const config = {
   },
   defaultTitle: 'App',
   database: {
-    host: '',
-    user: '',
-    pass: '',
-    name: ''
+    dialect:  '', // Supported: mysql, postgres, sqlite, mariadb and mssql
+    host:     '',
+    user:     '',
+    pass:     '',
+    name:     ''
   },
   cache: {
     enabled: true
