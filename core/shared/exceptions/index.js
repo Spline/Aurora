@@ -7,7 +7,13 @@ export default class Exception {
     console.log(params.title.toUpperCase().red);
     console.log(params.description.cyan);
 
-    if(params.forceExit)
+    if(params.info) {
+      /* If debug */
+      console.log(params.info);
+    }
+
+    if (params.forceExit) {
       process.exit();
+    }
   }
 }

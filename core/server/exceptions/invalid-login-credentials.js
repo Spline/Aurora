@@ -6,7 +6,7 @@ let params = {
   title: 'Invalid Credentials Exception',
   description: 'Invalid Credentials Exception',
   forceExit: true
-}
+};
 
 export default class InvalidCredentialsException extends Exception {
   constructor() {

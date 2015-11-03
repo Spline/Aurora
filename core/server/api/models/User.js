@@ -3,26 +3,34 @@
 import bcrypt from 'bcrypt';
 
 import Session from './Session';
-import InvalidCredentialsException from '../../exceptions/invalid-credentials';
+import InvalidLoginCredentialsException from '../../exceptions/invalid-login-credentials';
 import { users } from '../../database/orm/models';
 
 let computeHash = (password) => {
   return new Promise((resolve, reject) => {
     bcrypt.hash(password, 8, function(err, hash) {
-      if (err) reject(err)
-      else resolve(hash);
+      if (err) {
+        reject(err);
+      }
+      else {
+        resolve(hash);
+      }
     });
   });
-}
+};
 
 let computeAndCompareHash = (password, hash) => {
   return new Promise((resolve, reject) => {
     bcrypt.compare(password, hash, (err, success) => {
-      if (!err && success) resolve(true);
-      else reject(new InvalidCredentialsException());
+      if (!err && success) {
+        resolve(true);
+      }
+      else {
+        reject(new InvalidLoginCredentialsException());
+      }
     });
   });
-}
+};
 
 export default class User {
   constructor(params = {}) {

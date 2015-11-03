@@ -7,52 +7,23 @@ async function findOne() {
 }
 */
 
-import DatabaseConnectionException from '../exceptions/database-connection';
+let ORM = require(__ROOT + 'core/server/database/orm/connector');
+ORM.sync = require(__ROOT + 'core/server/database/orm/sync');
 
-var ormsync = require(__ROOT + 'core/server/database/orm/sync');
+import DatabaseConnectionRefusedException from '../exceptions/database-connection-refused';
 
 let config = require(__ROOT + 'config');
-let mysql = require('mysql');
-let pool = mysql.createPool({
-  host: config.database.host,
-  user: config.database.user,
-  password: config.database.pass,
-  database: config.database.name
-});
-
-let getConnection = async() => {
-  return new Promise((resolve, reject) => {
-    pool.getConnection((err, connection) => {
-      if (err) reject(err);
-      else resolve(connection);
-    });
-  });
-}
-
-let processQuery = async(connection, queryString, queryParams) => {
-  return new Promise((resolve, reject) => {
-    connection.query(queryString, queryParams, (err, rows) => {
-      connection.release();
-      if (err) reject(err);
-      else resolve(rows);
-    });
-  });
-}
 
 export default class SQL {
   static sync() {
-    return ormsync();
+    return ORM.sync();
   }
-  static connect() {
-    return new Promise((resolve, reject) => {
-      pool.getConnection((err, connection) => {
-        if (err) {
-          reject(err)
-          throw new DatabaseConnectionException();
-        } else resolve(connection);
-        connection.release();
-      });
-    });
+  static async connect() {
+    try {
+      await ORM.authenticate();
+    } catch (ex) {
+      throw new DatabaseConnectionRefusedException(ex);
+    }
   }
   async query(queryString, queryParams = {}) {
     let connection = await getConnection();
