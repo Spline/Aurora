@@ -8,6 +8,7 @@ const config = {
   database: {
     dialect:  'mysql', // Supported: mysql, postgres, sqlite, mariadb and mssql
     host:     '',
+    port:     '3306',
     user:     '',
     pass:     '',
     name:     ''
