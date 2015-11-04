@@ -1,6 +1,8 @@
 "use strict";
 
-import { contents } from '../../database/orm/models';
+import User from './User';
+
+import { contents, users } from '../../database/orm/models';
 
 export default class Content {
   constructor(params = {}) {
@@ -15,9 +17,10 @@ export default class Content {
   }
 
   async fetch() {
-    let result = await contents.findOne({ where: { id: this.id } });
+    let result = await contents.findOne({ where: { id: this.id }, include: [users] });
     this.title = result.title;
     this.content = result.content;
+    this.author = (new User(result.user.dataValues)).toJSON();
     return this;
   }
 
@@ -25,7 +28,8 @@ export default class Content {
     return {
       id: parseInt(this.id),
       title: this.title,
-      content: this.content
+      content: this.content,
+      author: this.author
     };
   }
 }

@@ -35,6 +35,9 @@ let computeAndCompareHash = (password, hash) => {
 export default class User {
   constructor(params = {}) {
     this.id = params.id;
+    this.firstName = params.firstName;
+    this.name = params.name;
+    this.email = params.email;
   }
 
   static async login(payload = {}) {
@@ -56,7 +59,6 @@ export default class User {
     this.id = user.id;
     this.firstName = user.firstName;
     this.name = user.name;
-    this.fullName = `${this.firstName} ${this.name}`;
     this.email = user.email;
     return this;
   }
@@ -66,7 +68,7 @@ export default class User {
       id: parseInt(this.id),
       firstName: this.firstName,
       name: this.name,
-      fullName: this.fullName,
+      fullName: `${this.firstName} ${this.name}`,
       email: this.email
     };
   }

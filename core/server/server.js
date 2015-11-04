@@ -17,8 +17,14 @@ var Database = require(__ROOT + 'core/server/database');
 export default async function() {
 
   /* Bootstrap */
-  await Database.connect();
-  await Database.sync();
+  try {
+    await Database.connect();
+    await Database.sync();
+
+  } catch(ex) {
+    console.log(ex);
+
+  }
 
   var app = express();
 
