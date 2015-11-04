@@ -6,7 +6,7 @@ const config = {
   },
   defaultTitle: 'App',
   database: {
-    dialect:  '', // Supported: mysql, postgres, sqlite, mariadb and mssql
+    dialect:  'mysql', // Supported: mysql, postgres, sqlite, mariadb and mssql
     host:     '',
     user:     '',
     pass:     '',
