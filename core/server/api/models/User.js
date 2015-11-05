@@ -3,7 +3,7 @@
 import bcrypt from 'bcrypt';
 
 import Session from './Session';
-import InvalidLoginCredentialsException from '../../exceptions/invalid-login-credentials';
+import InvalidLoginCredentialsException from '../../exceptions/Invalid-Login-Credentials';
 import { users } from '../../database/orm/models';
 
 let computeHash = (password) => {

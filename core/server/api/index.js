@@ -1,17 +1,21 @@
 "use strict";
 
-var Content = require(__ROOT + 'core/server/api/models/Content');
-var User    = require(__ROOT + 'core/server/api/models/User');
+import _ from 'lodash';
+import ROUTE from './routes';
 
-const REGEX_NUMBER = '([0-9]{1,8})';
+let Content = require(__ROOT + 'core/server/api/models/Content');
+let User    = require(__ROOT + 'core/server/api/models/User');
 
-const ROUTE_LOGIN      = new RegExp(`/login`);
+let InvalidParameterException = require(__ROOT + 'core/server/exceptions/Invalid-Parameter');
 
-const ROUTE_USER       = new RegExp(`/user`);
-const ROUTE_USER_ID    = new RegExp(`/user/${REGEX_NUMBER}`);
-
-const ROUTE_CONTENT    = new RegExp(`/content`);
-const ROUTE_CONTENT_ID = new RegExp(`/content/${REGEX_NUMBER}`);
+let parseParameter = (param, check) => {
+  if(check(param)) {
+    return param;
+  } else {
+    /* Parameter format incorrect */
+    throw new InvalidParameterException();
+  }
+};
 
 export default async function(route, params = { method: 'GET' }) {
   let queryParams;
@@ -19,29 +23,32 @@ export default async function(route, params = { method: 'GET' }) {
   switch (params.method.toUpperCase()) {
     case 'GET':
       /* Route: /user/:id */
-      if (queryParams = route.match(ROUTE_USER_ID)) {
-        return (new User({ id: queryParams[1] })).toJSON();
+      if (queryParams = route.match(ROUTE.USER_ID)) {
+        let userId = parseParameter(queryParams[1], _.isNumber);
+        let user = await (new User({ id: contentId })).fetch();
+        return user.toJSON();
       }
 
       /* Route: /content/:id */
-      if (queryParams = route.match(ROUTE_CONTENT_ID)) {
-        let content = new Content({ id: queryParams[1] });
-        return (await content.fetch()).toJSON();
+      if (queryParams = route.match(ROUTE.CONTENT_ID)) {
+        let contentId = parseParameter(queryParams[1], _.isNumber);
+        let content = await (new Content({ id: contentId })).fetch();
+        return content.toJSON();
       }
 
       break;
 
     case 'POST':
       /* Route: /login */
-      if (route.match(ROUTE_LOGIN)) {
+      if (route.match(ROUTE.LOGIN)) {
         return (await User.login(params.payload)).toJSON();
       }
 
       /* Route: /user */
-      if (route.match(ROUTE_USER)) {}
+      if (route.match(ROUTE.USER)) {}
 
       /* Route: /content */
-      if (route.match(ROUTE_CONTENT)) {}
+      if (route.match(ROUTE.CONTENT)) {}
 
       break;
   }

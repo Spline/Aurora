@@ -3,12 +3,12 @@
 import Exception from '../../shared/exceptions';
 
 let params = {
-  title: 'Invalid Credentials Exception',
-  description: 'Invalid Credentials Exception',
+  title: 'Invalid Login Credentials Exception',
+  description: 'Invalid Login Credentials Exception',
   forceExit: true
 };
 
-export default class InvalidCredentialsException extends Exception {
+export default class InvalidLoginCredentialsException extends Exception {
   constructor() {
     super(params);
   }
