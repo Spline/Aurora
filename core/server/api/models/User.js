@@ -69,7 +69,8 @@ export default class User {
       firstName: this.firstName,
       name: this.name,
       fullName: `${this.firstName} ${this.name}`,
-      email: this.email
+      email: this.email,
+      image: ''
     };
   }
 }

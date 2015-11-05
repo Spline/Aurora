@@ -42,5 +42,11 @@ export default function(sequelize) {
       allowNull: false,
       field: 'updated_at'
     }
+  }, {
+    indexes: [{
+      name: 'uri',
+      unique: true,
+      fields: ['uri']
+    }]
   });
 }
