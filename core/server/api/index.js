@@ -23,7 +23,6 @@ export default async function(route, params = { method: 'GET' }) {
   switch (params.method.toUpperCase()) {
     case 'GET':
       /* Route: /user/:id */
-      console.log(ROUTE.USER_ID);
       if (queryParams = route.match(ROUTE.USER_ID)) {
         let userId = parseParameter(parseInt(queryParams[1]), _.isNumber);
         let user = await (new User({ id: contentId })).fetch();
@@ -34,6 +33,13 @@ export default async function(route, params = { method: 'GET' }) {
       if (queryParams = route.match(ROUTE.CONTENT_ID)) {
         let contentId = parseParameter(parseInt(queryParams[1]), _.isNumber);
         let content = await (new Content({ id: contentId })).fetch();
+        return content.toJSON();
+      }
+
+      /* Route: /:this-is-an-uri */
+      if (queryParams = route.match(ROUTE.URI)) {
+        let contentUri = parseParameter(queryParams[1].toString(), _.isString);
+        let content = await (new Content({ uri: contentUri })).fetch();
         return content.toJSON();
       }
 

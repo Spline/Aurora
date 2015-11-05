@@ -9,6 +9,6 @@ const USER_ID = new RegExp(`/user/${REGEX.ID}`);
 
 const CONTENT = new RegExp(`/content`);
 const CONTENT_ID = new RegExp(`/content/${REGEX.ID}`);
-const CONTENT_URI = new RegExp(`/content/${REGEX.URI}`);
+const URI = new RegExp(`/${REGEX.URI}`);
 
-export default { LOGIN, USER, USER_ID, CONTENT, CONTENT_ID }
+export default { LOGIN, USER, USER_ID, CONTENT, CONTENT_ID, URI };
