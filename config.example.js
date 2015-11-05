@@ -15,6 +15,10 @@ const config = {
   },
   cache: {
     enabled: true
+  },
+  theme: {
+    frontend: 'australis',
+    backend: 'borealis'
   }
 };
 

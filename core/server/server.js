@@ -6,10 +6,11 @@ import http            from 'http';
 import nunjucks        from 'nunjucks';
 import riot            from 'riot';
 
-var api      = require(__ROOT + 'core/server/api'); // ToDo: Actually use api.
-var backend  = require(__ROOT + 'themes/backend/borealis/components/index.tag');
 var config   = require(__ROOT + 'config');
-var frontend = require(__ROOT + 'themes/frontend/australis/components/index.tag');
+
+var api      = require(__ROOT + 'core/server/api'); // ToDo: Actually use api.
+var backend  = require(__ROOT + 'themes/backend/' + config.theme.backend + '/components/index.tag');
+var frontend = require(__ROOT + 'themes/frontend/' + config.theme.frontend + '/components/index.tag');
 var reducers = require(__ROOT + 'core/shared/reducers');
 var routes   = require(__ROOT + 'core/shared/routes');
 var Database = require(__ROOT + 'core/server/database');
