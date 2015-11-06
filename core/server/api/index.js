@@ -18,7 +18,7 @@ let parseParameter = (param, check) => {
 };
 
 export default async function(route, params = { method: 'GET' }) {
-  let queryParams;
+  let queryParams = null, returnValue = null;
 
   switch (params.method.toUpperCase()) {
     case 'GET':
@@ -26,21 +26,21 @@ export default async function(route, params = { method: 'GET' }) {
       if (queryParams = route.match(ROUTE.USER_ID)) {
         let userId = parseParameter(parseInt(queryParams[1]), _.isNumber);
         let user = await (new User({ id: contentId })).fetch();
-        return user.toJSON();
+        returnValue = user.toJSON();
       }
 
       /* Route: /content/:id */
       if (queryParams = route.match(ROUTE.CONTENT_ID)) {
         let contentId = parseParameter(parseInt(queryParams[1]), _.isNumber);
         let content = await (new Content({ id: contentId })).fetch();
-        return content.toJSON();
+        returnValue = content.toJSON();
       }
 
       /* Route: /:this-is-an-uri */
       if (queryParams = route.match(ROUTE.URI)) {
         let contentUri = parseParameter(queryParams[1].toString(), _.isString);
         let content = await (new Content({ uri: contentUri })).fetch();
-        return content.toJSON();
+        returnValue = content.toJSON();
       }
 
       break;
@@ -48,7 +48,7 @@ export default async function(route, params = { method: 'GET' }) {
     case 'POST':
       /* Route: /login */
       if (route.match(ROUTE.LOGIN)) {
-        return (await User.login(params.payload)).toJSON();
+        returnValue = (await User.login(params.payload)).toJSON();
       }
 
       /* Route: /user */
@@ -58,8 +58,20 @@ export default async function(route, params = { method: 'GET' }) {
       if (route.match(ROUTE.CONTENT)) {}
 
       break;
+
+    default:
+      return null;
   }
 
-  /* No matching route found */
-  return null;
+  try {
+    /* If value is json, api call is valid. */
+    returnValue = JSON.parse(returnValue);
+
+  } catch (ex) {
+    /* console.log(ex); */
+    returnValue = null;
+
+  }
+
+  return returnValue;
 }
