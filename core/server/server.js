@@ -23,9 +23,6 @@ export default async function() {
     await Database.connect();
     await Database.sync();
 
-    /* Run tests in test mode. */
-    await Tests.API();
-
   } catch(ex) {
     console.log(ex);
 

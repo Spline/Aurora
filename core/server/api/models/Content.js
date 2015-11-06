@@ -17,14 +17,19 @@ export default class Content {
   }
 
   async fetch() {
-    let where = this.id ? { id: this.id }: { uri: this.uri };
+    let where = this.id ? { id: this.id } : { uri: this.uri };
     let result = await contents.findOne({ where, include: [users] });
+
+    if(!result)
+      return null;
+      
     this.id = result.id;
     this.uri = result.uri;
     this.title = result.title;
     this.content = result.content;
     this.layout = result.layout;
     this.author = (new User(result.user.dataValues)).toJSON();
+
     return this;
   }
 

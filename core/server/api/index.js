@@ -26,21 +26,21 @@ export default async function(route, params = { method: 'GET' }) {
       if (queryParams = route.match(ROUTE.USER_ID)) {
         let userId = parseParameter(parseInt(queryParams[1]), _.isNumber);
         let user = await (new User({ id: contentId })).fetch();
-        returnValue = user.toJSON();
+        returnValue = user ? user.toJSON() : null;
       }
 
       /* Route: /content/:id */
       if (queryParams = route.match(ROUTE.CONTENT_ID)) {
         let contentId = parseParameter(parseInt(queryParams[1]), _.isNumber);
         let content = await (new Content({ id: contentId })).fetch();
-        returnValue = content.toJSON();
+        returnValue = content ? content.toJSON() : null;
       }
 
       /* Route: /:this-is-an-uri */
       if (queryParams = route.match(ROUTE.URI)) {
         let contentUri = parseParameter(queryParams[1].toString(), _.isString);
         let content = await (new Content({ uri: contentUri })).fetch();
-        returnValue = content.toJSON();
+        returnValue = content ? content.toJSON() : null;
       }
 
       break;
@@ -52,25 +52,15 @@ export default async function(route, params = { method: 'GET' }) {
       }
 
       /* Route: /user */
-      if (route.match(ROUTE.USER)) {}
+      /* if (route.match(ROUTE.USER)) {} */
 
       /* Route: /content */
-      if (route.match(ROUTE.CONTENT)) {}
+      /* if (route.match(ROUTE.CONTENT)) {} */
 
       break;
 
     default:
       return null;
-  }
-
-  try {
-    /* If value is json, api call is valid. */
-    returnValue = JSON.parse(returnValue);
-
-  } catch (ex) {
-    /* console.log(ex); */
-    returnValue = null;
-
   }
 
   return returnValue;
