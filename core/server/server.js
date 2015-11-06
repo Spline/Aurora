@@ -14,6 +14,7 @@ var frontend = require(__ROOT + 'themes/frontend/' + config.theme.frontend + '/c
 var reducers = require(__ROOT + 'core/shared/reducers');
 var routes   = require(__ROOT + 'core/shared/routes');
 var Database = require(__ROOT + 'core/server/database');
+var Tests    = require(__ROOT + 'core/server/tests');
 
 export default async function() {
 
@@ -21,6 +22,9 @@ export default async function() {
   try {
     await Database.connect();
     await Database.sync();
+
+    /* Run tests in test mode. */
+    await Tests.API();
 
   } catch(ex) {
     console.log(ex);
