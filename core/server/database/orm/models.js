@@ -1,12 +1,18 @@
 "use strict";
 
-import sequelize from './connector';
+import connector from './connector';
+import Sequelize from 'sequelize';
 
-let contents = require('./models/contents')(sequelize);
-let users    = require('./models/users')(sequelize);
-let sessions = require('./models/sessions')(sequelize);
+let contents             = require('./models/contents')(connector);
+let collections          = require('./models/collections')(connector);
+let contents_collections = require('./models/contents-collections')(connector);
+let users                = require('./models/users')(connector);
+let sessions             = require('./models/sessions')(connector);
 
-users.hasMany(contents, { constraints: false, foreignKey: 'author_id' });
-contents.belongsTo(users, { constraints: false, foreignKey: 'author_id' });
+users.hasMany(contents, { constraints: false, foreignKey: 'authorId' });
+contents.belongsTo(users, { constraints: false, foreignKey: 'authorId' });
 
-export default { contents, users, sessions };
+contents.belongsToMany(collections, { constraints: false, through: contents_collections });
+collections.belongsToMany(contents, { constraints: false, through: contents_collections });
+
+export default { contents, users, sessions, collections, contents_collections };

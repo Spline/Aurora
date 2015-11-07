@@ -13,7 +13,7 @@ export default function(sequelize) {
     firstName: {
       type: Sequelize.STRING,
       allowNull: false,
-      field: 'first_name'
+      field: 'firstName'
     },
     name: {
       type: Sequelize.STRING,
@@ -32,13 +32,13 @@ export default function(sequelize) {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW,
       allowNull: false,
-      field: 'created_at'
+      field: 'createdAt'
     },
     updatedAt: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW,
       allowNull: false,
-      field: 'updated_at'
+      field: 'updatedAt'
     }
   }, {
     indexes: [{

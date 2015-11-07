@@ -1,7 +1,7 @@
 "use strict";
 
 import colors from 'colors';
-import { contents, users, sessions } from './models';
+import { contents, users, sessions, collections, contents_collections } from './models';
 
 /* Create tables... */
 let options = { force: true, logging: false };
@@ -12,21 +12,30 @@ export default function() {
     Promise.all([
       contents.sync(options),
       users.sync(options),
-      sessions.sync(options)
+      sessions.sync(options),
+      collections.sync(options),
+      contents_collections.sync(options)
 
     ]).then(() => {
       console.log('DONE'.green);
       process.stdout.write('Creating database contents... '.cyan);
 
       Promise.all([
+        /* Add some collection data to the database. */
+        collections.create({ name: 'Blog' }),
+        collections.create({ name: 'Wiki' }),
+
         /* Add some content data to the database. */
-        contents.create({ uri: 'john', title: 'John', content: 'Hancock', author_id: 1 }),
-        contents.create({ uri: 'michael', title: 'Michael', content: 'Berger', author_id: 1 }),
-        contents.create({ uri: 'jens', title: 'Jens', content: 'Schmidt', author_id: 1 }),
+        contents.create({ uri: 'john', title: 'John', content: 'Hancock', authorId: 1 }),
+        contents.create({ uri: 'michael', title: 'Michael', content: 'Berger', authorId: 1 }),
+        contents.create({ uri: 'jens', title: 'Jens', content: 'Schmidt', authorId: 1 }),
 
         /* Add some user data to the database. */
         users.create({ firstName: 'Eric', name: 'Range', email: 'eric.range@live.de', hash: '$2a$08$I9SGIZrgTJy.MW4ZrooV9eWLxdomHzkDW3OanGwJwpxQKEofgxpTi' }),
         users.create({ firstName: 'Pablo', name: 'Sichert', email: 'mail@pablosichert.de', hash: '$2a$08$I9SGIZrgTJy.MW4ZrooV9eWLxdomHzkDW3OanGwJwpxQKEofgxpTi' }),
+
+        contents_collections.create({ collectionId: 1, contentId: 1}),
+        contents_collections.create({ collectionId: 1, contentId: 2})
 
       ]).then(() => {
         console.log('DONE'.green);

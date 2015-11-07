@@ -1,7 +1,9 @@
 "use strict";
 
+import _ from 'lodash';
 import User from './User';
-import { contents, users } from '../../database/orm/models';
+import Collection from './Collection';
+import { contents, collections, users } from '../../database/orm/models';
 
 export default class Content {
   constructor(params = {}) {
@@ -17,20 +19,25 @@ export default class Content {
 
   async fetch() {
     let where = this.id ? { id: this.id } : { uri: this.uri };
-    let result = await contents.findOne({
-      where, include: [users]
+    let content = await contents.findOne({
+      where, include: [users, collections]
     });
 
-    if (!result) {
+    if (!content) {
       return null;
     }
 
-    this.id = result.id;
-    this.uri = result.uri;
-    this.title = result.title;
-    this.content = result.content;
-    this.layout = result.layout;
-    this.author = (new User(result.user.dataValues)).toJSON();
+    this.id          = content.id;
+    this.uri         = content.uri;
+    this.title       = content.title;
+    this.content     = content.content;
+    this.layout      = content.layout;
+    this.authors     = [(new User(content.user)).toJSON()];
+    this.collections = [];
+
+    content.collections.forEach((data) => {
+      this.collections.push((new Collection(data)).toJSON());
+    });
 
     return this;
   }
@@ -46,7 +53,8 @@ export default class Content {
       title: this.title,
       content: this.content,
       layout: this.layout,
-      author: this.author
+      authors: this.authors,
+      collections: this.collections
     };
   }
 }

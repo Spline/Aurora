@@ -19,13 +19,13 @@ export default function(sequelize) {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW,
       allowNull: false,
-      field: 'created_at'
+      field: 'createdAt'
     },
     updatedAt: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW,
       allowNull: false,
-      field: 'updated_at'
+      field: 'updatedAt'
     }
   }, {
     engine: 'MEMORY'

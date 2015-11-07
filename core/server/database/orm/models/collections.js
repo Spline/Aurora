@@ -3,31 +3,15 @@
 import Sequelize from 'sequelize';
 
 export default function(sequelize) {
-  return sequelize.define('contents', {
+  return sequelize.define('collections', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       allowNull: false,
       autoIncrement: true
     },
-    layout: {
+    name: {
       type: Sequelize.STRING,
-      defaultValue: 'index',
-      allowNull: false
-    },
-    uri: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    title: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    content: {
-      type: Sequelize.TEXT
-    },
-    authorId: {
-      type: Sequelize.INTEGER,
       allowNull: false
     },
     createdAt: {
@@ -42,11 +26,5 @@ export default function(sequelize) {
       allowNull: false,
       field: 'updatedAt'
     }
-  }, {
-    indexes: [{
-      name: 'uri',
-      unique: true,
-      fields: ['uri']
-    }]
   });
 }
