@@ -11,6 +11,8 @@ const CONTENT = new RegExp(`^/content$`);
 const CONTENT_ID = new RegExp(`^/content/${REGEX.ID}$`);
 const URI = new RegExp(`^/${REGEX.URI}$`);
 
+const RESERVED_WORDS = new RegExp(`^/(content|admin)$`);
+
 export default {
-  LOGIN, USER, USER_ID, CONTENT, CONTENT_ID, URI
+  LOGIN, USER, USER_ID, CONTENT, CONTENT_ID, URI, RESERVED_WORDS
 };

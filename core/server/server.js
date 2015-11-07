@@ -14,7 +14,6 @@ var frontend = require(__ROOT + 'themes/frontend/' + config.theme.frontend + '/c
 var reducers = require(__ROOT + 'core/shared/reducers');
 var routes   = require(__ROOT + 'core/shared/routes');
 var Database = require(__ROOT + 'core/server/database');
-var Tests    = require(__ROOT + 'core/server/tests');
 
 export default async function() {
 

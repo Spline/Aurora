@@ -16,31 +16,51 @@ function isJSON(string) {
 
 describe('API', function() {
   this.slow(500);
+  /*before(function(done) {
+    this.timeout(10000);
+    require('../../../index');
+    done();
+  });*/
+
+  describe('GENERAL', function() {
+    it('/reserved-uri', function(done) {
+      var url = '/content';
+      request.get(base_url + url, function(error, res) {
+        expect(isJSON(res.body)).to.equal(false);
+        done();
+      });
+    });
+  });
+
   describe('GET', function() {
     describe('/content', function() {
-      it('/id  (valid)', function(done) {
-        request.get(base_url + 'content/1', function(error, res) {
+      it('/valid-id', function(done) {
+        var url = 'content/1';
+        request.get(base_url + url, function(error, res) {
           expect(isJSON(res.body)).to.equal(true);
           done();
         });
       });
 
-      it('/id  (invalid)', function(done) {
-        request.get(base_url + 'content/99999', function(error, res) {
+      it('/valid-uri', function(done) {
+        var url = 'john';
+        request.get(base_url + url, function(error, res) {
+          expect(isJSON(res.body)).to.equal(true);
+          done();
+        });
+      });
+
+      it('/invalid-id', function(done) {
+        var url = 'content/99999';
+        request.get(base_url + url, function(error, res) {
           expect(isJSON(res.body)).to.equal(false);
           done();
         });
       });
 
-      it('/uri (valid)', function(done) {
-        request.get(base_url + 'john', function(error, res) {
-          expect(isJSON(res.body)).to.equal(true);
-          done();
-        });
-      });
-
-      it('/uri (invalid)', function(done) {
-        request.get(base_url + 'test!', function(error, res) {
+      it('/invalid-uri', function(done) {
+        var url = 'test!';
+        request.get(base_url + url, function(error, res) {
           expect(isJSON(res.body)).to.equal(false);
           done();
         });

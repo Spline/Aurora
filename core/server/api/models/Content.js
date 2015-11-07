@@ -1,7 +1,6 @@
 "use strict";
 
 import User from './User';
-
 import { contents, users } from '../../database/orm/models';
 
 export default class Content {
@@ -18,11 +17,14 @@ export default class Content {
 
   async fetch() {
     let where = this.id ? { id: this.id } : { uri: this.uri };
-    let result = await contents.findOne({ where, include: [users] });
+    let result = await contents.findOne({
+      where, include: [users]
+    });
 
-    if(!result)
+    if (!result) {
       return null;
-      
+    }
+
     this.id = result.id;
     this.uri = result.uri;
     this.title = result.title;
@@ -30,6 +32,10 @@ export default class Content {
     this.layout = result.layout;
     this.author = (new User(result.user.dataValues)).toJSON();
 
+    return this;
+  }
+
+  async save() {
     return this;
   }
 

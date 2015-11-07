@@ -38,6 +38,10 @@ export default async function(route, params = { method: 'GET' }) {
 
       /* Route: /:this-is-an-uri */
       if (queryParams = route.match(ROUTE.URI)) {
+        if(ROUTE.RESERVED_WORDS.test(route)) {
+          return null;
+        }
+
         let contentUri = parseParameter(queryParams[1].toString(), _.isString);
         let content = await (new Content({ uri: contentUri })).fetch();
         returnValue = content ? content.toJSON() : null;
