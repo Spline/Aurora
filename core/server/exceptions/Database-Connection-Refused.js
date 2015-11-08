@@ -1,7 +1,5 @@
 "use strict";
 
-import _ from 'lodash';
-
 import Exception from '../../shared/exceptions';
 
 let params = {
@@ -12,8 +10,9 @@ let params = {
 
 export default class DatabaseConnectionRefusedException extends Exception {
   constructor(message) {
-    super(_.extend(params, {
+    super({
+      ...params,
       info: message ? message : null
-    }));
+    });
   }
 }
