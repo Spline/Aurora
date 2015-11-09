@@ -15,7 +15,8 @@
   "dependencies": {
     "bcrypt": "^0.8.5",
     "colors": "^1.1.2",
-    "express": "^4.13.3",
+    "koa": "^1.1.2",
+    "koa-static": "^1.5.2",
     "lodash": "^3.10.1",
     "mysql": "^2.9.0",
     "nunjucks": "^2.1.0",

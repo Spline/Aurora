@@ -1,10 +1,11 @@
 "use strict";
 
 import { createStore } from 'redux';
-import express         from 'express';
 import http            from 'http';
+import Koa             from 'koa';
 import nunjucks        from 'nunjucks';
 import riot            from 'riot';
+import serve           from 'koa-static';
 
 var config   = require(__ROOT + 'config');
 
@@ -27,16 +28,16 @@ export default async function() {
 
   }
 
-  var app = express();
+  var app = new Koa();
+  app.experimental = true;
 
   nunjucks.configure(__ROOT + 'core/server/views', {
-    autoescape: false,
-    express: app
+    autoescape: false
   });
 
-  app.set('view engine', 'tmpl');
-  app.use(express.static('public'));
+  app.use(serve('public'));
 
+/*
   app.use((req, res, next) => {
     // Default state
     req.state = {
@@ -67,7 +68,8 @@ export default async function() {
       initialState: req.state
     });
   });
+*/
 
-  http.createServer(app).listen(config.ports.http);
+  http.createServer(app.callback()).listen(config.ports.http);
   console.log('http server started on port ' + config.ports.http);
 }
