@@ -7,21 +7,27 @@ import nunjucks        from 'nunjucks';
 import riot            from 'riot';
 import serve           from 'koa-static';
 
-var config   = require(__ROOT + 'config');
-
-var api      = require(__ROOT + 'core/server/api'); // ToDo: Actually use api.
-var backend  = require(__ROOT + 'themes/backend/' + config.theme.backend + '/components/index.tag');
-var frontend = require(__ROOT + 'themes/frontend/' + config.theme.frontend + '/components/index.tag');
-var reducers = require(__ROOT + 'core/shared/reducers');
-var routes   = require(__ROOT + 'core/shared/routes');
-var Database = require(__ROOT + 'core/server/database');
+var config, api, backend, frontend, reducers, routes, database;
+var check = require(__ROOT + 'core/server/checks');
 
 export default async function() {
 
+  /* Check if everything is configured as it should be. */
+  await check.config();
+
+  config   = require(__ROOT + 'config');
+  api      = require(__ROOT + 'core/server/api');
+  reducers = require(__ROOT + 'core/shared/reducers');
+  routes   = require(__ROOT + 'core/shared/routes');
+  database = require(__ROOT + 'core/server/database');
+
+  backend  = require(__ROOT + `themes/backend/${config.theme.backend}/components/index.tag`);
+  frontend = require(__ROOT + `themes/frontend/${config.theme.frontend}/components/index.tag`);
+
   /* Bootstrap */
   try {
-    await Database.connect();
-    await Database.sync();
+    await database.connect();
+    await database.sync();
 
   } catch(ex) {
     console.log(ex);
