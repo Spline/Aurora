@@ -1,5 +1,6 @@
 "use strict";
 
+import colors from 'colors';
 import fs from 'fs';
 
 let config;
@@ -20,6 +21,10 @@ let themes = async () => {
 };
 
 export default async function() {
+  process.stdout.write('Config file... '.cyan);
+
   exists();
   themes();
+
+  process.stdout.write('OK'.green + '\n');
 };
