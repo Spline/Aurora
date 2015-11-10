@@ -3,6 +3,7 @@
 import { combineReducers } from 'redux';
 
 export default combineReducers({
-  activeRoute: require('./activeRoute'),
-  user:        require('./user')
+  content:  require('./content'),
+  url:      require('./url'),
+  user:     require('./user')
 });
