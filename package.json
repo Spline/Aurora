@@ -17,6 +17,7 @@
     "colors": "^1.1.2",
     "koa": "^2.0.0-alpha.3",
     "koa-static": "^1.5.2",
+    "koa-static-server": "^0.1.8",
     "lodash": "^3.10.1",
     "mysql": "^2.9.0",
     "nunjucks": "^2.1.0",
