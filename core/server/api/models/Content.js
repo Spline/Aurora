@@ -32,7 +32,7 @@ export default class Content {
     this.title       = content.title;
     this.content     = content.content;
     this.layout      = content.layout;
-    this.authors     = [(new User(content.user)).toJSON()];
+    this.owner       = (new User(content.user)).toJSON();
     this.collections = [];
 
     content.collections.forEach((data) => {
@@ -53,7 +53,7 @@ export default class Content {
       title: this.title,
       content: this.content,
       layout: this.layout,
-      authors: this.authors,
+      owner: this.owner,
       collections: this.collections
     };
   }

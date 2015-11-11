@@ -26,7 +26,7 @@ export default function(sequelize) {
     content: {
       type: Sequelize.TEXT
     },
-    authorId: {
+    ownerId: {
       type: Sequelize.INTEGER,
       allowNull: false
     },
