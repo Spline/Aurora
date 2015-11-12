@@ -2,6 +2,8 @@
 <html>
   <head>
     <title>{{ initialState.title }}</title>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Serif" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/main.css">
   </head>
   <body>
     {{ html }}
@@ -11,7 +13,7 @@
     {% else %}
       <script src="/js/backend.js"></script>
     {% endif %}
-    
+
     <script>
       window.initialState = {{ (initialState if initialState else {}) | dump }};
       window.routes = {{ (routes if routes else {}) | dump }};
