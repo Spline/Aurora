@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="/css/main.css">
   </head>
   <body>
-    {{ html }}
+    <app>
+      {{ html }}
+    </app>
 
     {% if not initialState.user %}
       <script src="/js/frontend.js"></script>
