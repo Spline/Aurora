@@ -20,6 +20,10 @@ export default class Collection {
       where, include: [contents]
     });
 
+    if (!collection) {
+      return null;
+    }
+
     this.id = collection.id;
     this.name = collection.name;
     this.layout = collection.layout;
