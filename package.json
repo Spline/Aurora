@@ -24,7 +24,8 @@
     "page": "^1.6.4",
     "redux": "^3.0.4",
     "riot": "~2.3.1",
-    "sequelize": "^3.13.0"
+    "sequelize": "^3.13.0",
+    "sqlite3": "^3.1.1"
   },
   "devDependencies": {
     "babel": "^5.8.23",

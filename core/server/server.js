@@ -7,7 +7,6 @@ import http            from 'http';
 import Koa             from 'koa';
 import nunjucks        from 'nunjucks';
 import riot            from 'riot';
-import serve           from 'koa-static-server';
 
 var check = require(__ROOT + 'core/server/checks');
 
@@ -23,8 +22,8 @@ export default async function() {
   var database = require(__ROOT + 'core/server/database');
 
   // Require components that depend on riot being included
-  var backend  = require(__ROOT + `themes/backend/${config.theme.backend}/components/index.tag`);
-  var frontend = require(__ROOT + `themes/frontend/${config.theme.frontend}/components/index.tag`);
+  var backend; //  = require(__ROOT + `themes/backend/${config.theme.backend}/components/index.tag`);
+  var frontend;
 
   /* Bootstrap */
   try {
@@ -40,7 +39,7 @@ export default async function() {
     var app = new Koa();
     app.experimental = true;
 
-    nunjucks.configure(__ROOT + 'core/server/views', {
+    nunjucks.configure(__ROOT + `themes/frontend/${config.theme.frontend}`, {
       autoescape: false
     });
 
@@ -56,26 +55,29 @@ export default async function() {
     });
 
     app.use(async function(context, nextMiddleware) {
-      context.state.content = await api(context.req.url);
+      context.state.object = await api(context.req.url);
 
       return await nextMiddleware();
     });
 
     app.use(async function(context) {
       var store = createStore(reducers, context.state);
-      var html = riot.render((!context.state.user ? frontend : backend), {
-        isClient: false,
-        routes: routes,
-        store: store,
-        state: store.getState()
-      });
+      if(context.state.object && context.state.object.layout) {
+        frontend = require(__ROOT + `themes/frontend/${config.theme.frontend}/templates/${context.state.object.layout}.tag`);
+        var html = riot.render((!context.state.user ? frontend : backend), {
+          isClient: false,
+          routes: routes,
+          store: store,
+          state: store.getState()
+        });
 
-      var body = nunjucks.render('base.tmpl', {
-        html: html,
-        initialState: context.state
-      });
+        var body = nunjucks.render('index.html', {
+          html: html,
+          initialState: context.state
+        });
 
-      context.body = body;
+        context.body = body;
+      }
     });
   } catch(exception) {
     console.log(exception);

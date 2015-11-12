@@ -3,6 +3,7 @@
 import _ from 'lodash';
 import ROUTE from './routes';
 
+let Collection = require(__ROOT + 'core/server/api/models/Collection');
 let Content = require(__ROOT + 'core/server/api/models/Content');
 let User    = require(__ROOT + 'core/server/api/models/User');
 
@@ -34,6 +35,13 @@ export default async function(route, params = { method: 'GET' }) {
         let contentId = parseParameter(parseInt(queryParams[1]), _.isNumber);
         let content = await (new Content({ id: contentId })).fetch();
         returnValue = content ? content.toJSON() : null;
+      }
+
+      /* Route: /collection/:id */
+      if (queryParams = route.match(ROUTE.COLLECTION_ID)) {
+        let collectionId = parseParameter(parseInt(queryParams[1]), _.isNumber);
+        let collection = await (new Collection({ id: collectionId })).fetch();
+        returnValue = collection ? collection.toJSON() : null;
       }
 
       /* Route: /:this-is-an-uri */

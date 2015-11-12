@@ -10,11 +10,8 @@ export default class Content {
     /* If there is no id or uri specified, this must be new content. */
     this.id = params.id;
     this.uri = params.uri;
-
-    if (!this.id && !this.uri) {
-      this.title = params.title;
-      this.content = params.content;
-    }
+    this.title = params.title;
+    this.content = params.content;
   }
 
   async fetch() {

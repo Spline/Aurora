@@ -14,6 +14,11 @@ export default function(sequelize) {
       type: Sequelize.STRING,
       allowNull: false
     },
+    layout: {
+      type: Sequelize.STRING,
+      defaultValue: 'index',
+      allowNull: false
+    },
     createdAt: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW,
