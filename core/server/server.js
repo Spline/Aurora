@@ -3,11 +3,12 @@
 "use strict";
 
 import { createStore } from 'redux';
+import convert         from 'koa-convert';
 import http            from 'http';
 import Koa             from 'koa';
 import nunjucks        from 'nunjucks';
 import riot            from 'riot';
-import serve           from 'koa-static-server';
+import serve           from 'koa-static';
 
 var check = require(__ROOT + 'core/server/checks');
 
@@ -43,6 +44,8 @@ export default async function() {
     nunjucks.configure(__ROOT + 'core/server/views', {
       autoescape: false
     });
+
+    app.use(convert(serve(__ROOT + 'public'))); // TODO: replace with native async function
 
     app.use(async function(context, nextMiddleware) {
       // Init the state object
