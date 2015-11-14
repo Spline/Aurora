@@ -23,7 +23,7 @@ gulp.task('bundle-frontend', function() {
     })
     .bundle()
     .pipe(source('frontend.js'))
-    .pipe(gulp.dest('public/js'))
+    .pipe(gulp.dest('public/core/js'))
   ;
 });
 
@@ -38,7 +38,7 @@ gulp.task('bundle-backend', function() {
     })
     .bundle()
     .pipe(source('backend.js'))
-    .pipe(gulp.dest('public/js'))
+    .pipe(gulp.dest('public/core/js'))
   ;
 });
 

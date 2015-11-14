@@ -7,6 +7,8 @@ import http            from 'http';
 import Koa             from 'koa';
 import nunjucks        from 'nunjucks';
 import riot            from 'riot';
+import serve           from 'koa-static-server';
+import convert         from 'koa-convert';
 
 var check = require(__ROOT + 'core/server/checks');
 
@@ -42,6 +44,10 @@ export default async function() {
     nunjucks.configure(__ROOT + `themes/frontend/${config.theme.frontend}`, {
       autoescape: false
     });
+
+    app.use(convert(serve({rootDir: `public/core`, rootPath: '/static/core'})));
+    app.use(convert(serve({rootDir: `public/images`, rootPath: '/static/images'})));
+    app.use(convert(serve({rootDir: `themes/frontend/${config.theme.frontend}/public`, rootPath: '/static/theme'})));
 
     app.use(async function(context, nextMiddleware) {
       // Init the state object

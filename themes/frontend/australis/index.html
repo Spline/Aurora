@@ -3,7 +3,7 @@
   <head>
     <title>{{ initialState.title }}</title>
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Serif" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/static/theme/css/main.css">
   </head>
   <body>
     <app>
@@ -11,9 +11,9 @@
     </app>
 
     {% if not initialState.user %}
-      <script src="/js/frontend.js"></script>
+      <script src="/static/core/js/frontend.js"></script>
     {% else %}
-      <script src="/js/backend.js"></script>
+      <script src="/static/core/js/backend.js"></script>
     {% endif %}
 
     <script>
