@@ -23,14 +23,22 @@ export default async function() {
   var routes   = require(__ROOT + 'core/shared/routes');
   var database = require(__ROOT + 'core/server/database');
 
+  var frontendThemePath = `${__ROOT}themes/frontend/${config.theme.frontend}`;
+  var frontendTemplates = [];
+
   // Require components that depend on riot being included
-  var backend; //  = require(__ROOT + `themes/backend/${config.theme.backend}/components/index.tag`);
+  var backend;
   var frontend;
 
   /* Bootstrap */
   try {
     await database.connect();
     await database.sync();
+
+    /* Load all templates */
+    require("fs").readdirSync(`${frontendThemePath}/templates`).forEach(function(file) {
+      frontendTemplates[file.substring(0, file.length - 4)] = require(`${frontendThemePath}/templates/${file}`);
+    });
 
   } catch(ex) {
     console.log(ex);
@@ -41,13 +49,13 @@ export default async function() {
     var app = new Koa();
     app.experimental = true;
 
-    nunjucks.configure(__ROOT + `themes/frontend/${config.theme.frontend}`, {
+    nunjucks.configure(frontendThemePath, {
       autoescape: false
     });
 
-    app.use(convert(serve({rootDir: `public/core`, rootPath: '/static/core'})));
-    app.use(convert(serve({rootDir: `public/images`, rootPath: '/static/images'})));
-    app.use(convert(serve({rootDir: `themes/frontend/${config.theme.frontend}/public`, rootPath: '/static/theme'})));
+    app.use(convert(serve({rootDir: `${__ROOT}public/core`, rootPath: '/static/core'})));
+    app.use(convert(serve({rootDir: `${__ROOT}public/images`, rootPath: '/static/images'})));
+    app.use(convert(serve({rootDir: `${frontendThemePath}/public`, rootPath: '/static/theme'})));
 
     app.use(async function(context, nextMiddleware) {
       // Init the state object
@@ -62,14 +70,13 @@ export default async function() {
 
     app.use(async function(context, nextMiddleware) {
       context.state.object = await api(context.req.url);
-
       return await nextMiddleware();
     });
 
     app.use(async function(context) {
       var store = createStore(reducers, context.state);
       if(context.state.object && context.state.object.layout) {
-        frontend = require(__ROOT + `themes/frontend/${config.theme.frontend}/templates/${context.state.object.layout}.tag`);
+        frontend = frontendTemplates[context.state.object.layout];
         var html = riot.render((!context.state.user ? frontend : backend), {
           isClient: false,
           routes: routes,
@@ -77,7 +84,7 @@ export default async function() {
           state: store.getState()
         });
 
-        var body = nunjucks.render('index.html', {
+        var body = nunjucks.render(`index.html`, {
           html: html,
           initialState: context.state
         });
