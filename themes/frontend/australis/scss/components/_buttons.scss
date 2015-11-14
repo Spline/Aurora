@@ -1,0 +1,32 @@
+.button {
+  padding: 10px 15px;
+  border-radius: 100px;
+  transition: color .2s, background .2s;
+
+  &.button-primary {
+    background-color: $primary-color;
+    color: #fff;
+  }
+
+  &.button-primary-bordered {
+    border: solid 1px $primary-color;
+    color: $primary-color;
+    &:hover {
+      background: $primary-color;
+      color: white;
+    }
+  }
+
+  &.icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  &.button-bordered {
+    border: solid 1px #999;
+    color: #999;
+    &:hover {
+
+    }
+  }
+}

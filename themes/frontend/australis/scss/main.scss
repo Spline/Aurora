@@ -1,0 +1,44 @@
+@import "_vars.scss";
+@import "_helpers.scss";
+//@import "_fonts.scss";
+@import "_custom-elements.scss";
+@import "components/_buttons.scss";
+@import "components/_navbar.scss";
+@import "components/_hero.scss";
+@import "components/_logo.scss";
+//@import "../public/fonts/icons/octicons.css";
+
+@import "templates/_blog-posts.scss";
+
+* {
+  box-sizing: border-box;
+  font-family: 'Noto Sans', sans-serif;
+  line-height: 1.5em;
+  margin: 0;
+  padding: 0;
+  color: #222;
+}
+ul,
+li {
+  list-style: none;
+}
+a,
+input {
+  outline: none;
+  color: inherit;
+  text-decoration: none;
+}
+.content {
+  color: #444;
+  font-family: "Noto Serif";
+}
+.container {
+  width: 100%;
+  max-width: $container-width;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.clearfix {
+  @include clearfix;
+}
