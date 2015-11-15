@@ -3,11 +3,11 @@
 import _ from 'lodash';
 import ROUTE from './routes';
 
-let Collection = require(__ROOT + 'core/server/api/models/Collection');
-let Content = require(__ROOT + 'core/server/api/models/Content');
-let User    = require(__ROOT + 'core/server/api/models/User');
+let Collection = require(`${__ROOT}core/server/api/models/Collection`);
+let Content = require(`${__ROOT}core/server/api/models/Content`);
+let User    = require(`${__ROOT}core/server/api/models/User`);
 
-let InvalidParameterException = require(__ROOT + 'core/server/exceptions/Invalid-Parameter');
+let InvalidParameterException = require(`${__ROOT}core/server/exceptions/Invalid-Parameter`);
 
 let parseParameter = (param, check) => {
   if(check(param)) {
@@ -20,6 +20,9 @@ let parseParameter = (param, check) => {
 
 export default async function(route, params = { method: 'GET' }) {
   let queryParams = null, returnValue = null;
+
+  if(route === '/')
+    route = '/collection/1';
 
   switch (params.method.toUpperCase()) {
     case 'GET':

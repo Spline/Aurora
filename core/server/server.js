@@ -10,18 +10,18 @@ import riot            from 'riot';
 import serve           from 'koa-static-server';
 import convert         from 'koa-convert';
 
-var check = require(__ROOT + 'core/server/checks');
+var check = require(`${__ROOT}core/server/checks`);
 
 export default async function() {
 
   /* Check if everything is configured as it should be. */
   await check.config();
 
-  var config   = require(__ROOT + 'config');
-  var api      = require(__ROOT + 'core/server/api');
-  var reducers = require(__ROOT + 'core/shared/reducers');
-  var routes   = require(__ROOT + 'core/shared/routes');
-  var database = require(__ROOT + 'core/server/database');
+  var config   = require(`${__ROOT}config`);
+  var api      = require(`${__ROOT}core/server/api`);
+  var reducers = require(`${__ROOT}core/shared/reducers`);
+  var routes   = require(`${__ROOT}core/shared/routes`);
+  var database = require(`${__ROOT}core/server/database`);
 
   var frontendThemePath = `${__ROOT}themes/frontend/${config.theme.frontend}`;
   var frontendTemplates = [];
@@ -69,11 +69,14 @@ export default async function() {
     });
 
     app.use(async function(context, nextMiddleware) {
+      let startTime = new Date();
       context.state.object = await api(context.req.url);
+      console.log(`API response time: ${new Date() - startTime}ms`);
       return await nextMiddleware();
     });
 
     app.use(async function(context) {
+      let startTime = new Date();
       var store = createStore(reducers, context.state);
       if(context.state.object && context.state.object.layout) {
         frontend = frontendTemplates[context.state.object.layout];
@@ -89,7 +92,9 @@ export default async function() {
           initialState: context.state
         });
 
+        console.log(`Render processing time: ${new Date() - startTime}ms`);
         context.body = body;
+
       }
     });
   } catch(exception) {
