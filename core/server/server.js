@@ -54,7 +54,7 @@ export default async function() {
     });
 
     app.use(convert(serve({rootDir: `${__ROOT}public/core`, rootPath: '/static/core'})));
-    app.use(convert(serve({rootDir: `${__ROOT}public/images`, rootPath: '/static/images'})));
+    app.use(convert(serve({rootDir: `${__ROOT}public/images`, rootPath: '/static/assets'})));
     app.use(convert(serve({rootDir: `${frontendThemePath}/public`, rootPath: '/static/theme'})));
 
     app.use(async function(context, nextMiddleware) {
@@ -70,7 +70,7 @@ export default async function() {
 
     app.use(async function(context, nextMiddleware) {
       let startTime = new Date();
-      context.state.object = await api(context.req.url);
+      context.state.content = await api(context.req.url);
       console.log(`API response time: ${new Date() - startTime}ms`);
       return await nextMiddleware();
     });
@@ -78,8 +78,8 @@ export default async function() {
     app.use(async function(context) {
       let startTime = new Date();
       var store = createStore(reducers, context.state);
-      if(context.state.object && context.state.object.layout) {
-        frontend = frontendTemplates[context.state.object.layout];
+      if(context.state.content && context.state.content.layout) {
+        frontend = frontendTemplates[context.state.content.layout];
         var html = riot.render((!context.state.user ? frontend : backend), {
           isClient: false,
           routes: routes,
