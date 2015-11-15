@@ -60,6 +60,7 @@ export default class User {
     this.firstName = user.firstName;
     this.name = user.name;
     this.email = user.email;
+    this.image = null;
     return this;
   }
 
@@ -70,7 +71,7 @@ export default class User {
       name: this.name,
       fullName: `${this.firstName} ${this.name}`,
       email: this.email,
-      image: ''
+      image: this.image || '/static/assets/profile-images/null.jpg'
     };
   }
 }

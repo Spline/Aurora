@@ -29,6 +29,7 @@ export default class Content {
     this.title       = content.title;
     this.content     = content.content;
     this.layout      = content.layout;
+    this.created     = content.createdAt;
     this.owner       = (new User(content.user)).toJSON();
     this.collections = [];
 
@@ -50,6 +51,7 @@ export default class Content {
       title: this.title,
       content: this.content,
       layout: this.layout,
+      created: this.created,
       owner: this.owner,
       collections: this.collections
     };

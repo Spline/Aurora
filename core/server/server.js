@@ -54,7 +54,7 @@ export default async function() {
     });
 
     app.use(convert(serve({rootDir: `${__ROOT}public/core`, rootPath: '/static/core'})));
-    app.use(convert(serve({rootDir: `${__ROOT}public/images`, rootPath: '/static/assets'})));
+    app.use(convert(serve({rootDir: `${__ROOT}public/assets`, rootPath: '/static/assets'})));
     app.use(convert(serve({rootDir: `${frontendThemePath}/public`, rootPath: '/static/theme'})));
 
     app.use(async function(context, nextMiddleware) {
@@ -71,6 +71,7 @@ export default async function() {
     app.use(async function(context, nextMiddleware) {
       let startTime = new Date();
       context.state.content = await api(context.req.url);
+      console.log(context.state.content);
       console.log(`API response time: ${new Date() - startTime}ms`);
       return await nextMiddleware();
     });

@@ -9,6 +9,7 @@
 @import "components/_logo.scss";
 
 //@import "../public/fonts/icons/octicons.css";
+@import "templates/_blog-post.scss";
 @import "templates/_blog-posts.scss";
 * {
   box-sizing: border-box;
@@ -36,11 +37,19 @@ input {
   width: 100%;
   max-width: $container-width;
   margin: 0 auto;
-  padding: 0 20px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .clearfix {
   @include clearfix;
 }
 .right {
   float: right;
+}
+input[type="search"] {
+  border: 1px solid #ccc;
+  height: 42px;
+  border-radius: 100px;
+  padding: 0 20px;
+  font-size: 1em;
 }

@@ -12,14 +12,8 @@
           </div>
         </a>
       </li>
-      <li>
-        <a href="#">Blog</a>
-      </li>
-      <li>
-        <a href="#">Contact</a>
-      </li>
       <li class="right" if={opts.search === 'true'}>
-        <input type="search">
+        <input type="search" placeholder="Suchen...">
       </li>
     </ul>
   </nav>
