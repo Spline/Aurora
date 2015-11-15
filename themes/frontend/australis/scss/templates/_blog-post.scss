@@ -1,7 +1,4 @@
 blog-post {
-  .container {
-    padding-top: 20px;
-  }
   .owner {
     min-height: 40px;
     margin-bottom: 20px;
@@ -15,13 +12,16 @@ blog-post {
     .created {
       padding-left: 50px;
       font-size: 0.9em;
+      font-family: 'Noto Serif',sans-serif;
+      line-height: 1.3em;
     }
     .name {
       color: $primary-color;
       font-weight: bold;
     }
     .created {
-      color: #999;
+      color: #aaa;
+      font-size: 0.85em;
     }
   }
   h1 {
@@ -33,9 +33,9 @@ blog-post {
     p {
       margin-bottom: 20px;
       font-family: 'Noto Serif',sans-serif;
-      letter-spacing: 0.2px;
-      line-height: 1.7em;
-      font-size: 1.1em;
+      line-height: 1.6em;
+      font-size: 1.25em;
+      color: #444;
     }
   }
 }

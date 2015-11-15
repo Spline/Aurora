@@ -1,5 +1,5 @@
 <blog-post class="content content-{opts.state.content.id}">
-  <header search="true"></header>
+  <header search="false"></header>
   <div class="container">
     <div class="owner">
       <img class="image" src="{opts.state.content.owner.image}">
