@@ -41,11 +41,7 @@ export default function() {
         console.log('DONE'.green);
         resolve();
 
-      });
-
-    }).catch((err) => {
-      reject(err);
-
-    });
+      }).catch((err) => { reject(err); });
+    }).catch((err)   => { reject(err); });
   });
 }

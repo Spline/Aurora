@@ -13,16 +13,24 @@ export default function(sequelize) {
     firstName: {
       type: Sequelize.STRING,
       allowNull: false,
-      field: 'firstName'
+      validate: {
+        isAlpha: true
+      }
     },
     name: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isAlpha: true
+      }
     },
     email: {
       type: Sequelize.STRING,
       unique: true,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isEmail: true
+      }
     },
     hash: {
       type: Sequelize.STRING,

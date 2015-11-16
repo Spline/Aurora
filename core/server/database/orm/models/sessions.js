@@ -7,8 +7,7 @@ export default function(sequelize) {
     userId: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      allowNull: false,
-      field: 'user_id'
+      allowNull: false
     },
     sessionString: {
       type: Sequelize.STRING,
