@@ -19,6 +19,10 @@ export default function(sequelize) {
       type: Sequelize.STRING,
       allowNull: false
     },
+    language: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     title: {
       type: Sequelize.STRING,
       allowNull: false
@@ -30,7 +34,13 @@ export default function(sequelize) {
       type: Sequelize.INTEGER,
       allowNull: false
     },
-    {
+    isDraft: {
+      defaultValue: true,
+      Sequelize.BOOLEAN,
+      allowNull: false
+    },
+    isHtml: {
+      defaultValue: false,
       Sequelize.BOOLEAN,
       allowNull: false
     },
