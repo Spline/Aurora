@@ -30,6 +30,10 @@ export default function(sequelize) {
       type: Sequelize.INTEGER,
       allowNull: false
     },
+    {
+      Sequelize.BOOLEAN,
+      allowNull: false
+    },
     createdAt: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW,
