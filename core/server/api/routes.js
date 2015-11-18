@@ -1,6 +1,6 @@
 "use strict";
 
-let REGEX = require(__ROOT + 'core/shared/regex');
+let REGEX = require(__ROOT + '/core/shared/regex');
 
 const LOGIN = new RegExp(`^/login$`);
 

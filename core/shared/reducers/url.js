@@ -2,7 +2,7 @@
 
 var URL_CHANGE;
 
-({ URL_CHANGE } = require(__ROOT + 'core/shared/actions'));
+({ URL_CHANGE } = require(__ROOT + '/core/shared/actions'));
 
 function url(state = '/', action) {
   switch (action.type) {

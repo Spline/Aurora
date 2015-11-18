@@ -1,7 +1,6 @@
 "use strict";
 
+global.__ROOT = process.cwd();
+
 require('babel/register');
-
-global.__ROOT = process.cwd() + '/';
-
-require(__ROOT + 'core/server/server.js')();
+require(__ROOT + '/core/server/server.js')();

@@ -10,20 +10,20 @@ import riot            from 'riot';
 import serve           from 'koa-static-server';
 import convert         from 'koa-convert';
 
-var check = require(`${__ROOT}core/server/checks`);
+var check = require(`${__ROOT}/core/server/checks`);
 
 export default async function() {
 
   /* Check if everything is configured as it should be. */
   await check.config();
 
-  var config   = require(`${__ROOT}config`);
-  var api      = require(`${__ROOT}core/server/api`);
-  var reducers = require(`${__ROOT}core/shared/reducers`);
-  var routes   = require(`${__ROOT}core/shared/routes`);
-  var database = require(`${__ROOT}core/server/database`);
+  var config   = require(`${__ROOT}/config`);
+  var api      = require(`${__ROOT}/core/server/api`);
+  var reducers = require(`${__ROOT}/core/shared/reducers`);
+  var routes   = require(`${__ROOT}/core/shared/routes`);
+  var database = require(`${__ROOT}/core/server/database`);
 
-  var frontendThemePath = `${__ROOT}themes/frontend/${config.theme.frontend}`;
+  var frontendThemePath = `${__ROOT}/themes/frontend/${config.theme.frontend}`;
   var frontendTemplates = [];
 
   // Require components that depend on riot being included
@@ -53,8 +53,8 @@ export default async function() {
       autoescape: false
     });
 
-    app.use(convert(serve({rootDir: `${__ROOT}public/core`, rootPath: '/static/core'})));
-    app.use(convert(serve({rootDir: `${__ROOT}public/assets`, rootPath: '/static/assets'})));
+    app.use(convert(serve({rootDir: `${__ROOT}/public/core`, rootPath: '/static/core'})));
+    app.use(convert(serve({rootDir: `${__ROOT}/public/assets`, rootPath: '/static/assets'})));
     app.use(convert(serve({rootDir: `${frontendThemePath}/public`, rootPath: '/static/theme'})));
 
     app.use(async function(context, nextMiddleware) {

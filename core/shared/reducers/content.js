@@ -2,7 +2,7 @@
 
 var CONTENT_CHANGE;
 
-({ CONTENT_CHANGE } = require(__ROOT + 'core/shared/actions'));
+({ CONTENT_CHANGE } = require(__ROOT + '/core/shared/actions'));
 
 function content(state = {}, action) {
   switch (action.type) {

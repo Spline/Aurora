@@ -2,7 +2,7 @@
 
 import Sequelize from 'sequelize';
 
-let config = require(__ROOT + 'config');
+let config = require(`${__ROOT}/config`);
 
 export default new Sequelize(
   config.database[config.database.dialect].name,

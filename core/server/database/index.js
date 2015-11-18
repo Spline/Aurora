@@ -7,12 +7,12 @@ async function findOne() {
 }
 */
 
-let ORM = require(__ROOT + 'core/server/database/orm/connector');
-ORM.sync = require(__ROOT + 'core/server/database/orm/sync');
+let ORM = require(`${__ROOT}/core/server/database/orm/connector`);
+ORM.sync = require(`${__ROOT}/core/server/database/orm/sync`);
 
 import DatabaseConnectionRefusedException from '../exceptions/Database-Connection-Refused';
 
-let config = require(__ROOT + 'config');
+let config = require(__ROOT + '/config');
 
 export default class SQL {
   static sync() {

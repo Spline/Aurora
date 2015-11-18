@@ -3,8 +3,8 @@
 var createStore = require('redux').createStore;
 var riot = require('riot');
 
-var backend   = require(__ROOT + 'themes/backend/borealis/components/index.tag');
-var reducers  = require(__ROOT + 'core/shared/reducers');
+var backend   = require(__ROOT + '/themes/backend/borealis/components/index.tag');
+var reducers  = require(__ROOT + '/core/shared/reducers');
 
 riot.mount('app > *', {
   isClient: true,

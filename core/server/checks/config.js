@@ -5,8 +5,8 @@ import fs from 'fs';
 
 let config;
 let exists = async () => {
-  if(fs.existsSync(__ROOT + 'config.js')) {
-    config = require(__ROOT + 'config');
+  if(fs.existsSync(__ROOT + '/config.js')) {
+    config = require(__ROOT + '/config');
   }
 };
 
