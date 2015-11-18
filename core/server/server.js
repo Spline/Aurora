@@ -71,7 +71,10 @@ export default async function() {
 
     app.use(async function(context, nextMiddleware) {
       let startTime = new Date();
-      context.state.content = await api(context.req.url, { method: context.req.method });
+      context.state.content = await api(context.req.url, {
+        method: context.req.method,
+        session: context.cookies.get("session")
+      });
       console.log(`API response time: ${new Date() - startTime}ms`);
       return await nextMiddleware();
     });

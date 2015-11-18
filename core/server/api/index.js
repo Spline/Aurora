@@ -18,8 +18,15 @@ let parseParameter = (param, check) => {
   }
 };
 
+let parseSession = (session) => {
+  return {
+    userId: ''
+    secret: ''
+  };
+};
+
 export default async function(route, params = { method: 'GET' }) {
-  let queryParams = null, returnValue = null;
+  let queryParams = null, returnValue = null, session = parseSession(params.session);
 
   if(route === '/')
     route = '/collection/1';
