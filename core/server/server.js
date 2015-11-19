@@ -8,20 +8,23 @@ import Koa             from 'koa';
 import nunjucks        from 'nunjucks';
 import riot            from 'riot';
 import serve           from 'koa-static-server';
+import bodyParser      from 'koa-bodyparser';
 import convert         from 'koa-convert';
 
 var check = require(`${__ROOT}/core/server/checks`);
 
 export default async function() {
-
   /* Check if everything is configured as it should be. */
   await check.config();
 
-  var config   = require(`${__ROOT}/config`);
-  var api      = require(`${__ROOT}/core/server/api`);
-  var reducers = require(`${__ROOT}/core/shared/reducers`);
-  var routes   = require(`${__ROOT}/core/shared/routes`);
-  var database = require(`${__ROOT}/core/server/database`);
+  try {
+    var config   = require(`${__ROOT}/config`);
+    var api      = require(`${__ROOT}/core/server/api`);
+    var reducers = require(`${__ROOT}/core/shared/reducers`);
+    var routes   = require(`${__ROOT}/core/shared/routes`);
+    var database = require(`${__ROOT}/core/server/database`);
+
+  } catch(ex) { console.log(ex); }
 
   var frontendThemePath = `${__ROOT}/themes/frontend/${config.theme.frontend}`;
   var frontendTemplates = [];
@@ -53,38 +56,40 @@ export default async function() {
       autoescape: false
     });
 
+    app.use(convert(bodyParser()));
+
     app.use(convert(serve({rootDir: `${__ROOT}/public/core`, rootPath: '/static/core'})));
     app.use(convert(serve({rootDir: `${__ROOT}/public/assets`, rootPath: '/static/assets'})));
     app.use(convert(serve({rootDir: `${frontendThemePath}/public`, rootPath: '/static/theme'})));
 
-    app.use(async function(context, nextMiddleware) {
+    app.use(async (ctx, next) => {
       // Init the state object
-      context.state = {
-        url: context.req.url,
-        method: context.req.method,
+      ctx.state = {
+        url: ctx.req.url,
+        method: ctx.req.method,
         content: {},
         user: null
       };
 
-      return await nextMiddleware();
+      return await next();
     });
 
-    app.use(async function(context, nextMiddleware) {
-      let startTime = new Date();
-      context.state.content = await api(context.req.url, {
-        method: context.req.method,
-        session: context.cookies.get("session")
+    app.use(async (ctx, next) => {
+      ctx.body = ctx.request.body;
+      ctx.state.content = await api(ctx.req.url, {
+        session: ctx.cookies.get('session'),
+        payload: ctx.body,
+        method: ctx.req.method
       });
-      console.log(`API response time: ${new Date() - startTime}ms`);
-      return await nextMiddleware();
+      return await next();
     });
 
-    app.use(async function(context) {
+    app.use(async (ctx) => {
       let startTime = new Date();
-      var store = createStore(reducers, context.state);
-      if(context.state.content && context.state.content.layout) {
-        frontend = frontendTemplates[context.state.content.layout];
-        var html = riot.render((!context.state.user ? frontend : backend), {
+      var store = createStore(reducers, ctx.state);
+      if(ctx.state.content && ctx.state.content.layout) {
+        frontend = frontendTemplates[ctx.state.content.layout];
+        var html = riot.render((!ctx.state.user ? frontend : backend), {
           isClient: false,
           routes: routes,
           store: store,
@@ -93,11 +98,11 @@ export default async function() {
 
         var body = nunjucks.render(`index.html`, {
           html: html,
-          initialState: context.state
+          initialState: ctx.state
         });
 
         console.log(`Render processing time: ${new Date() - startTime}ms`);
-        context.body = body;
+        ctx.body = body;
 
       }
     });

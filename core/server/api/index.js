@@ -20,7 +20,7 @@ let parseParameter = (param, check) => {
 
 let parseSession = (session) => {
   return {
-    userId: ''
+    userId: '',
     secret: ''
   };
 };
