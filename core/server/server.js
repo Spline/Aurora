@@ -1,15 +1,24 @@
-// TODO: static file serving when developing
-
 "use strict";
+
+import fs from 'fs';
+var requireAll = (path) => {
+  let temp = {};
+  fs.readdirSync(path)
+    .forEach((file) => {
+      temp[file.substring(0, file.length - 4)] = require(`${path}/${file}`);
+  });
+  return temp;
+};
 
 import { createStore } from 'redux';
 import http            from 'http';
 import Koa             from 'koa';
-import nunjucks        from 'nunjucks';
-import riot            from 'riot';
+import logger          from 'koa-morgan';
 import serve           from 'koa-static-server';
 import bodyParser      from 'koa-bodyparser';
 import convert         from 'koa-convert';
+import nunjucks        from 'nunjucks';
+import riot            from 'riot';
 
 var check = require(`${__ROOT}/core/server/checks`);
 
@@ -17,21 +26,24 @@ export default async function() {
   /* Check if everything is configured as it should be. */
   await check.config();
 
+  /* This syntax allow to track errors within the required modules. */
+  var config, api, reducers, routes, database;
   try {
-    var config   = require(`${__ROOT}/config`);
-    var api      = require(`${__ROOT}/core/server/api`);
-    var reducers = require(`${__ROOT}/core/shared/reducers`);
-    var routes   = require(`${__ROOT}/core/shared/routes`);
-    var database = require(`${__ROOT}/core/server/database`);
+    config   = require(`${__ROOT}/config`);
+    api      = require(`${__ROOT}/core/server/api`);
+    reducers = require(`${__ROOT}/core/shared/reducers`);
+    routes   = require(`${__ROOT}/core/shared/routes`);
+    database = require(`${__ROOT}/core/server/database`);
 
   } catch(ex) { console.log(ex); }
 
-  var frontendThemePath = `${__ROOT}/themes/frontend/${config.theme.frontend}`;
-  var frontendTemplates = [];
-
   // Require components that depend on riot being included
-  var backend;
-  var frontend;
+  var backend, frontend, frontendTemplates;
+  var frontendThemePath = `${__ROOT}/themes/frontend/${config.theme.frontend}`;
+
+  nunjucks.configure(frontendThemePath, {
+    autoescape: false
+  });
 
   /* Bootstrap */
   try {
@@ -39,9 +51,7 @@ export default async function() {
     await database.sync();
 
     /* Load all templates */
-    require("fs").readdirSync(`${frontendThemePath}/templates`).forEach(function(file) {
-      frontendTemplates[file.substring(0, file.length - 4)] = require(`${frontendThemePath}/templates/${file}`);
-    });
+    frontendTemplates = requireAll(`${frontendThemePath}/templates`);
 
   } catch(ex) {
     console.log(ex);
@@ -52,9 +62,11 @@ export default async function() {
     var app = new Koa();
     app.experimental = true;
 
-    nunjucks.configure(frontendThemePath, {
-      autoescape: false
-    });
+    /* https://github.com/expressjs/morgan */
+    /* combined, common, dev, short, tiny */
+    app.use(convert(logger.middleware('dev', {
+      skip: function (req, res) { return req.url.indexOf('/static/core') !== -1 ? true : false; }
+    })));
 
     app.use(convert(bodyParser()));
 
@@ -75,17 +87,15 @@ export default async function() {
     });
 
     app.use(async (ctx, next) => {
-      ctx.body = ctx.request.body;
       ctx.state.content = await api(ctx.req.url, {
         session: ctx.cookies.get('session'),
-        payload: ctx.body,
-        method: ctx.req.method
+        payload: ctx.request.body,
+        method:  ctx.req.method
       });
       return await next();
     });
 
     app.use(async (ctx) => {
-      let startTime = new Date();
       var store = createStore(reducers, ctx.state);
       if(ctx.state.content && ctx.state.content.layout) {
         frontend = frontendTemplates[ctx.state.content.layout];
@@ -101,9 +111,7 @@ export default async function() {
           initialState: ctx.state
         });
 
-        console.log(`Render processing time: ${new Date() - startTime}ms`);
         ctx.body = body;
-
       }
     });
   } catch(exception) {
