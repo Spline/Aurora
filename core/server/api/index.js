@@ -33,6 +33,11 @@ export default async function(route, params = { method: 'GET' }) {
 
   switch (params.method.toUpperCase()) {
     case 'GET':
+
+      if (route.match(ROUTE.LOGIN)) {
+        return { layout: 'login' };
+      }
+
       /* Route: /user/:id */
       if (queryParams = route.match(ROUTE.USER_ID)) {
         let userId = parseParameter(parseInt(queryParams[1]), _.isNumber);
@@ -70,7 +75,10 @@ export default async function(route, params = { method: 'GET' }) {
     case 'POST':
       /* Route: /login */
       if (route.match(ROUTE.LOGIN)) {
-        returnValue = (await User.login(params.payload)).toJSON();
+        if(params.payload) {
+          let user = await User.login(params.payload);
+          returnValue = user ? user.toJSON() : null;
+        }
       }
 
       /* Route: /user */
