@@ -20,12 +20,7 @@ import convert         from 'koa-convert';
 import nunjucks        from 'nunjucks';
 import riot            from 'riot';
 
-var check = require(`${__ROOT}/core/server/checks`);
-
 export default async function() {
-  /* Check if everything is configured as it should be. */
-  await check.config();
-
   /* This syntax allow to track errors within the required modules. */
   var config, api, reducers, routes, database;
   try {
@@ -47,8 +42,10 @@ export default async function() {
 
   /* Bootstrap */
   try {
-    await database.connect();
-    await database.sync();
+    if(process.env['SYNC_DATABASE'] === 'true') {
+      await database.connect();
+      await database.sync();
+    }
 
     /* Load all templates */
     frontendTemplates = requireAll(`${frontendThemePath}/templates`);
@@ -120,5 +117,5 @@ export default async function() {
   }
 
   http.createServer(app.callback()).listen(config.ports.http);
-  console.log('http server started on port ' + config.ports.http);
+  process.send({ action: 'HTTP_SERVER_STARTED', msg: 'HTTP server started on port ' + config.ports.http });
 }

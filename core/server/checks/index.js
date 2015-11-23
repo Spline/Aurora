@@ -1,5 +1,7 @@
 "use strict";
 
-let config = require('./config');
+var config = require('./config');
 
-export default { config };
+module.exports = {
+  config: config
+};

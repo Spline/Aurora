@@ -1,10 +1,10 @@
 "use strict";
 
-import colors from 'colors';
-import fs from 'fs';
+var colors = require('colors');
+var fs = require('fs');
 
-let config;
-let exists = async () => {
+var config;
+var exists = () => {
   if(fs.existsSync(__ROOT + '/config.js')) {
     config = require(__ROOT + '/config');
     return true;
@@ -14,25 +14,27 @@ let exists = async () => {
   return false;
 };
 
-let themes = async () => {
+var themes = () => {
   if(!config.theme || !config.theme.backend) {
     console.log('Missing backend theme');
+    return false;
   }
 
   if(!config.theme || !config.theme.frontend) {
     console.log('Missing frontend theme');
+    return false;
   }
 
   return true;
 };
 
-export default async function() {
+module.exports = () => {
   process.stdout.write('Config file... '.cyan);
 
-  if(await exists() &&
-     await themes()
+  if(exists() &&
+     themes()
   )
-       process.stdout.write('Ok'.green + '\n');
+    process.stdout.write('Ok'.green + '\n');
   else {
     console.log('\n');
     process.exit();

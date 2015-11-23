@@ -11,6 +11,9 @@
     "Pablo Sichert <mail@pablosichert.de> (https://pablosichert.de)",
     "Eric Range <mail@eric-range.de> (https://eric-range.de)"
   ],
+  "engines" : {
+    "node" : ">=4.0.0" 
+  },
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^0.8.5",
