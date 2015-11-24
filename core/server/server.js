@@ -61,9 +61,9 @@ export default async function() {
 
     /* https://github.com/expressjs/morgan */
     /* combined, common, dev, short, tiny */
-    app.use(convert(logger.middleware('dev', {
-      skip: function (req, res) { return req.url.indexOf('/static/core') !== -1 ? true : false; }
-    })));
+    app.use(logger('dev', { skip: (req, res) => {
+      return req.url.indexOf('/static/core') !== -1 ? true : false;
+    }}));
 
     app.use(convert(bodyParser()));
 

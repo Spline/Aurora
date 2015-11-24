@@ -11,8 +11,8 @@
     "Pablo Sichert <mail@pablosichert.de> (https://pablosichert.de)",
     "Eric Range <mail@eric-range.de> (https://eric-range.de)"
   ],
-  "engines" : {
-    "node" : ">=4.0.0" 
+  "engines": {
+    "node": ">=4.0.0"
   },
   "license": "MIT",
   "dependencies": {
@@ -21,7 +21,7 @@
     "koa": "^2.0.0-alpha.3",
     "koa-bodyparser": "^3.0.0",
     "koa-convert": "^1.1.0",
-    "koa-morgan": "^0.4.0",
+    "koa-morgan": "^1.0.0",
     "koa-static": "^1.5.2",
     "koa-static-server": "^0.1.8",
     "lodash": "^3.10.1",
