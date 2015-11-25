@@ -4,8 +4,9 @@ import _ from 'lodash';
 import ROUTE from './routes';
 
 let Collection = require(`${__ROOT}/core/server/api/models/Collection`);
-let Content = require(`${__ROOT}/core/server/api/models/Content`);
-let User    = require(`${__ROOT}/core/server/api/models/User`);
+let Content    = require(`${__ROOT}/core/server/api/models/Content`);
+let User       = require(`${__ROOT}/core/server/api/models/User`);
+let Session    = require(`${__ROOT}/core/server/api/models/Session`);
 
 let InvalidParameterException = require(`${__ROOT}/core/server/exceptions/Invalid-Parameter`);
 
@@ -18,16 +19,8 @@ let parseParameter = (param, check) => {
   }
 };
 
-let parseSession = (session) => {
-  return {
-    userId: '',
-    secret: ''
-  };
-};
-
 export default async function(route, params = { method: 'GET' }) {
   let queryParams = null, returnValue = null,
-    session = parseSession(params.session),
     cookies = params.cookies;
 
   if(route === '/')
@@ -79,7 +72,8 @@ export default async function(route, params = { method: 'GET' }) {
       if (route.match(ROUTE.LOGIN)) {
         if(params.payload) {
           let target = await User.login(params.payload);
-          cookies.set('session', target.sessionString);
+          cookies.set('userId', target.user.id);
+          cookies.set('secret', target.secret);
           returnValue = target.user ? target.user.toJSON() : null;
         }
       }

@@ -4,7 +4,7 @@ import crypto from 'crypto';
 
 import { sessions } from '../../database/orm/models';
 
-let createSessionString = (userId) => {
+let createSecret = () => {
   let shasum = crypto.createHash('sha256');
   let IV = (function(length) {
     let temp = '';
@@ -13,7 +13,7 @@ let createSessionString = (userId) => {
         temp += chars.charAt(Math.floor(Math.random() * chars.length));
     return temp;
   })(32);
-  shasum.update(`${IV}-${userId}`);
+  shasum.update(IV);
   return shasum.digest('hex');
 }
 
@@ -23,22 +23,27 @@ export default class Session {
   }
 
   async create() {
-    this.sessionString = createSessionString(this.userId);
+    this.secret = createSecret();
     await sessions.upsert({
-      userId: this.userId,
-      sessionString: this.sessionString
+      userId: parseInt(this.userId),
+      secret: this.secret
     });
     return this;
   }
 
-  async isValid() {
-    let sessionData = await sessions.findOne({ where: { userId: this.userId } });
+  static async isValid(userId, secret) {
+    let sessionData = await sessions.findOne({
+      where: {
+        userId: parseInt(userId),
+        secret: secret
+      }
+    });
     return sessionData ? true : false;
   }
 
   toJSON() {
     return {
-      sessionString: this.sessionString
+      secret: this.secret
     };
   }
 }

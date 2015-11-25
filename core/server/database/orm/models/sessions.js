@@ -9,7 +9,7 @@ export default function(sequelize) {
       primaryKey: true,
       allowNull: false
     },
-    sessionString: {
+    secret: {
       type: Sequelize.STRING,
       allowNull: false,
     },

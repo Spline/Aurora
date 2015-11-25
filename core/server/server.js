@@ -85,7 +85,6 @@ export default async function() {
 
     app.use(async (ctx, next) => {
       ctx.state.content = await api(ctx.req.url, {
-        session: ctx.cookies.get('session'),
         payload: ctx.request.body,
         method:  ctx.req.method,
         cookies: ctx.cookies
