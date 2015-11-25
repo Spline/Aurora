@@ -1,4 +1,9 @@
 <raw>
   <span></span>
-  this.root.innerHTML = opts.content
+  var that = this;
+  var updateHTML = function () {
+		that.root.innerHTML = opts.content || "";
+	};
+  updateHTML();
+  this.on('updated', updateHTML);
 </raw>

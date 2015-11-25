@@ -7,6 +7,6 @@
       <div class="created">gepostet {(new Date(opts.state.content.created)).toLocaleDateString()}</div>
     </div>
     <h1>{opts.state.content.title}</h1>
-    <raw class="content" content="{opts.state.content.content}"></raw>
+    <div riot-tag="raw" class="content" content="{opts.state.content.content}"></div>
   </div>
 </blog-post>
