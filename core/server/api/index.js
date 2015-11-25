@@ -26,7 +26,9 @@ let parseSession = (session) => {
 };
 
 export default async function(route, params = { method: 'GET' }) {
-  let queryParams = null, returnValue = null, session = parseSession(params.session);
+  let queryParams = null, returnValue = null,
+    session = parseSession(params.session),
+    cookies = params.cookies;
 
   if(route === '/')
     route = '/collection/1';
@@ -76,8 +78,9 @@ export default async function(route, params = { method: 'GET' }) {
       /* Route: /login */
       if (route.match(ROUTE.LOGIN)) {
         if(params.payload) {
-          let user = await User.login(params.payload);
-          returnValue = user ? user.toJSON() : null;
+          let target = await User.login(params.payload);
+          cookies.set('session', target.sessionString);
+          returnValue = target.user ? target.user.toJSON() : null;
         }
       }
 

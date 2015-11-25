@@ -45,8 +45,8 @@ export default class User {
     try {
       if (userData && await computeAndCompareHash(payload.password, userData.hash)) {
         let user = await (new User({ id: userData.id })).fetch();
-        await new Session(user).create();
-        return user;
+        let session = (await (new Session(user)).create()).toJSON();
+        return { user, ...session };
       }
     } catch (ex) {
       return ex;

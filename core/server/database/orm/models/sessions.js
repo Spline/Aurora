@@ -12,19 +12,16 @@ export default function(sequelize) {
     sessionString: {
       type: Sequelize.STRING,
       allowNull: false,
-      field: 'session_string'
     },
     createdAt: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW,
       allowNull: false,
-      field: 'createdAt'
     },
     updatedAt: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW,
       allowNull: false,
-      field: 'updatedAt'
     }
   }, {
     engine: 'MEMORY'
