@@ -1,3 +1,3 @@
 <footer>
-  <span class="right">Aurora CMS</span>
+  <span class="right"><a href="/login">Aurora CMS Login</a></span>
 </footer>

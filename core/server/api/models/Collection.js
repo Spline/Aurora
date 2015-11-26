@@ -14,6 +14,22 @@ export default class Collection {
     this.layout = params.layout;
   }
 
+  static async fetch() {
+    let dataSet = await collections.findAll({
+      include: [contents]
+    });
+
+    if (!dataSet) {
+      return null;
+    }
+
+    var Collections = [];
+    _.each(dataSet, (data) => {
+      Collections.push((new Collection(data)).toJSON());
+    });
+    return Collections;
+  }
+
   async fetch() {
     let where = this.id ? { id: this.id } : { uri: this.uri };
     let collection = await collections.findOne({

@@ -124,7 +124,6 @@ export default async function() {
           backendTemplates[ctx.state.content.layout] :
           frontendTemplates[ctx.state.content.layout];
 
-        frontend = frontendTemplates[ctx.state.content.layout];
         //var html = riot.render((!ctx.state.user ? frontend : backend), {
         var html = riot.render(template, {
           isClient: false,

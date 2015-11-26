@@ -37,12 +37,17 @@ export default async function(route, params = { method: 'GET' }) {
       if (route.match(ROUTE.BACKEND)) {
         if(await Session.isValid(parseInt(cookies.get('userId')), cookies.get('secret'))) {
           if(route.match(ROUTE.BACKEND_DASHBOARD)) {
-            return { interface: 'backend', layout: 'dashboard' };
+            let collections = await Collection.fetch();
+            return {
+              interface:   'backend',
+              layout:      'dashboard',
+              collections: collections
+            };
           }
 
         } else {
           throw new InvalidOrCorruptAuthenticityException();
-          
+
         }
 
         return null;
