@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ initialState.title }}</title>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Serif" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/static/theme/css/styles.min.css">
+  </head>
+  <body>
+    <app>
+      {{ html }}
+    </app>
+
+    {% if not initialState.user %}
+      <script src="/static/core/js/frontend.js"></script>
+    {% else %}
+      <script src="/static/core/js/backend.js"></script>
+    {% endif %}
+
+    <script>
+      window.initialState = {{ (initialState if initialState else {}) | dump }};
+      window.routes = {{ (routes if routes else {}) | dump }};
+    </script>
+  </body>
+</html>

@@ -23,6 +23,8 @@ import riot            from 'riot';
 export default async function() {
   /* This syntax allow to track errors within the required modules. */
   var config, api, reducers, routes, database;
+  var InvalidOrCorruptAuthenticityException;
+
   try {
     config   = require(`${__ROOT}/config`);
     api      = require(`${__ROOT}/core/server/api`);
@@ -30,11 +32,16 @@ export default async function() {
     routes   = require(`${__ROOT}/core/shared/routes`);
     database = require(`${__ROOT}/core/server/database`);
 
+    /* Exceptions */
+    InvalidOrCorruptAuthenticityException =
+      require(`${__ROOT}/core/server/exceptions/Invalid-Or-Corrupt-Authenticity`);
+
   } catch(ex) { console.log(ex); }
 
   // Require components that depend on riot being included
-  var backend, frontend, frontendTemplates;
+  var backend, frontend, frontendTemplates, backendTemplates;
   var frontendThemePath = `${__ROOT}/themes/frontend/${config.theme.frontend}`;
+  var backendThemePath  = `${__ROOT}/themes/backend/${config.theme.backend}`;
 
   nunjucks.configure(frontendThemePath, {
     autoescape: false
@@ -49,6 +56,7 @@ export default async function() {
 
     /* Load all templates */
     frontendTemplates = requireAll(`${frontendThemePath}/templates`);
+    backendTemplates  = requireAll(`${backendThemePath}/templates`);
 
   } catch(ex) {
     console.log(ex);
@@ -84,19 +92,41 @@ export default async function() {
     });
 
     app.use(async (ctx, next) => {
-      ctx.state.content = await api(ctx.req.url, {
-        payload: ctx.request.body,
-        method:  ctx.req.method,
-        cookies: ctx.cookies
-      });
+      try {
+        ctx.state.content = await api(ctx.req.url, {
+          payload: ctx.request.body,
+          method:  ctx.req.method,
+          cookies: ctx.cookies
+        });
+
+        if(ctx.state.content && ctx.state.content.redirect) {
+          ctx.redirect(ctx.state.content.redirect);
+        }
+
+      } catch(exception) {
+        console.log(exception);
+        ctx.state.content = null;
+
+        /* There might be problems with the authentication. */
+        if(exception instanceof InvalidOrCorruptAuthenticityException) {
+          ctx.redirect('/login');
+        }
+      }
+
       return await next();
     });
 
     app.use(async (ctx) => {
       var store = createStore(reducers, ctx.state);
       if(ctx.state.content && ctx.state.content.layout) {
+        ctx.state.content.interface = ctx.state.content.interface || 'frontend';
+        let template = ctx.state.content.interface === 'backend' ?
+          backendTemplates[ctx.state.content.layout] :
+          frontendTemplates[ctx.state.content.layout];
+
         frontend = frontendTemplates[ctx.state.content.layout];
-        var html = riot.render((!ctx.state.user ? frontend : backend), {
+        //var html = riot.render((!ctx.state.user ? frontend : backend), {
+        var html = riot.render(template, {
           isClient: false,
           routes: routes,
           store: store,

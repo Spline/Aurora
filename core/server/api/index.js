@@ -3,12 +3,13 @@
 import _ from 'lodash';
 import ROUTE from './routes';
 
-let Collection = require(`${__ROOT}/core/server/api/models/Collection`);
-let Content    = require(`${__ROOT}/core/server/api/models/Content`);
-let User       = require(`${__ROOT}/core/server/api/models/User`);
-let Session    = require(`${__ROOT}/core/server/api/models/Session`);
+var Collection = require(`${__ROOT}/core/server/api/models/Collection`);
+var Content    = require(`${__ROOT}/core/server/api/models/Content`);
+var User       = require(`${__ROOT}/core/server/api/models/User`);
+var Session    = require(`${__ROOT}/core/server/api/models/Session`);
 
-let InvalidParameterException = require(`${__ROOT}/core/server/exceptions/Invalid-Parameter`);
+var InvalidParameterException = require(`${__ROOT}/core/server/exceptions/Invalid-Parameter`);
+var InvalidOrCorruptAuthenticityException = require(`${__ROOT}/core/server/exceptions/Invalid-Or-Corrupt-Authenticity`);
 
 let parseParameter = (param, check) => {
   if(check(param)) {
@@ -30,7 +31,21 @@ export default async function(route, params = { method: 'GET' }) {
     case 'GET':
 
       if (route.match(ROUTE.LOGIN)) {
-        return { layout: 'login' };
+        return { interface: 'backend', layout: 'login' };
+      }
+
+      if (route.match(ROUTE.BACKEND)) {
+        if(await Session.isValid(parseInt(cookies.get('userId')), cookies.get('secret'))) {
+          if(route.match(ROUTE.BACKEND_DASHBOARD)) {
+            return { interface: 'backend', layout: 'dashboard' };
+          }
+
+        } else {
+          throw new InvalidOrCorruptAuthenticityException();
+          
+        }
+
+        return null;
       }
 
       /* Route: /user/:id */
@@ -74,7 +89,14 @@ export default async function(route, params = { method: 'GET' }) {
           let target = await User.login(params.payload);
           cookies.set('userId', target.user.id);
           cookies.set('secret', target.secret);
-          returnValue = target.user ? target.user.toJSON() : null;
+
+          if(target.user) {
+            returnValue = target.user.toJSON();
+            returnValue.redirect = '/admin/dashboard';
+
+          } else {
+            returnValue = null;
+          }
         }
       }
 

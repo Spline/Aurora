@@ -1,0 +1,41 @@
+blog-post {
+  .owner {
+    min-height: 40px;
+    margin-bottom: 20px;
+    img {
+      position: absolute;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+    }
+    .name,
+    .created {
+      padding-left: 50px;
+      font-size: 0.9em;
+      font-family: 'Noto Serif',sans-serif;
+      line-height: 1.3em;
+    }
+    .name {
+      color: $primary-color;
+      font-weight: bold;
+    }
+    .created {
+      color: #aaa;
+      font-size: 0.85em;
+    }
+  }
+  h1 {
+    color: #333;
+    font-size: 2em;
+    margin-bottom: 5px;
+  }
+  .content {
+    p {
+      margin-bottom: 20px;
+      font-family: 'Noto Serif',sans-serif;
+      line-height: 1.6em;
+      font-size: 1.25em;
+      color: #444;
+    }
+  }
+}

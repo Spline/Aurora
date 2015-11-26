@@ -1,0 +1,22 @@
+$Size: 6;
+
+.logo-css {
+  height: $Size * 5 + px;
+  position: relative;
+  min-width: $Size * 5 + px;
+  span {
+    width: $Size + px;
+    position: absolute;
+  }
+  .name,
+  .intro {
+    padding-left: 10 + $Size * 5 + px;
+  }
+  @for $i from 1 through 5 {
+    span:nth-child(#{$i}) {
+      background: darken(#1DE9B6, $i / 20 * 100%);
+      height: $i * 20%;
+      left: ($i - 1) * $Size + px;
+    }
+  }
+}

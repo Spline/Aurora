@@ -1,5 +1,6 @@
 "use strict";
 
+import _ from 'lodash';
 import crypto from 'crypto';
 
 import { sessions } from '../../database/orm/models';
@@ -32,9 +33,13 @@ export default class Session {
   }
 
   static async isValid(userId, secret) {
+    if(!_.isNumber(userId)) {
+      return false;
+    }
+
     let sessionData = await sessions.findOne({
       where: {
-        userId: parseInt(userId),
+        userId: userId,
         secret: secret
       }
     });
